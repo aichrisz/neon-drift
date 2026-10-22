@@ -1,5 +1,9 @@
 # Implementation evidence and handoff
 
+## v1.1 continuation
+
+The sections below are historical v1.0 evidence. Current v1.1 genuine RED/GREEN logs and changed-contract oracle explanations are in `docs/v1.1-implementation-evidence.md`; completed parent acceptance is in `docs/v1.1-parent-acceptance.md` (26 unit,31 browser,13 edge,eight lifecycle variants,online audit0,fresh Astra ship with one low audio-label note). Do not apply historical v1.0 publication/reviewer approval to v1.1. No new dependency installation or external publication was performed for v1.1.
+
 This document preserves the **initial implementer checkpoint** below, followed by expanded parent acceptance. Initial counts and archive size are historical, not the final release totals. No push or public deployment is authorized.
 
 ## Observed RED → GREEN

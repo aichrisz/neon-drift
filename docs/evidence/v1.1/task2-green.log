@@ -1,0 +1,16 @@
+✔ Normal legacy records preserved; Hard isolated and validated (1.69453ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.341168ms)
+✔ denied read and quota write have separate truthful session outcomes (0.366082ms)
+✔ successful exact key write; finite safe integers only (0.326162ms)
+✔ mode is validated and visible (2.238332ms)
+✔ typed geometry and optional swept radii are exact (0.375842ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (1807.094108ms)
+✔ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (160.546124ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2129.911205

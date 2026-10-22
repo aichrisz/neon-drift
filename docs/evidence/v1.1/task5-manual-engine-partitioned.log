@@ -1,0 +1,11 @@
+{
+  "modeSeedRuns": 120,
+  "activeSecondsPerRun": 200,
+  "determinismModeSeedRuns": 20,
+  "straightCrashModeSeedRuns": 40,
+  "sweptContactCases": 40000,
+  "narrowPass": {
+    "nearMisses": 1,
+    "nitro": 71
+  }
+}

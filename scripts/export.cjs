@@ -1,4 +1,5 @@
 const { FILES, read, output } = require("./public.cjs");
+const embedded = new Set();
 let html = read("index.html"),
   count = 0;
 html = html.replace(
@@ -13,6 +14,9 @@ html = html.replace(
   (_, name) => {
     if (!FILES.includes(name) || !name.endsWith(".js"))
       throw Error("Unknown script");
+    // A total count alone would accept duplicate audio and a missing engine.
+    if (embedded.has(name)) throw Error("Duplicate script: " + name);
+    embedded.add(name);
     count++;
     return (
       "<script>" + read(name).replace(/<\/script/gi, "<\\/script") + "</script>"
@@ -21,6 +25,7 @@ html = html.replace(
 );
 if (
   count !== FILES.length - 1 ||
+  FILES.filter(name => name.endsWith(".js")).some(name => !embedded.has(name)) ||
   /<(?:script|link)\b[^>]*(?:src|href)\s*=/i.test(html) ||
   /url\s*\(/i.test(read("styles.css"))
 )

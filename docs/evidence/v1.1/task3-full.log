@@ -1,0 +1,67 @@
+
+> neon-drift@1.0.0 check
+> node scripts/check.cjs
+
+Runtime allowlist and JavaScript syntax OK
+
+> neon-drift@1.0.0 build
+> node scripts/build.cjs
+
+Built 7 runtime files in dist/
+
+> neon-drift@1.0.0 export
+> node scripts/export.cjs
+
+/root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html
+
+> neon-drift@1.0.0 test
+> node --test tests/*.test.cjs && playwright test
+
+✔ real OfflineAudioContext: engine, speed pitch, boost and cue signals; mute/pause silence (1517.917681ms)
+✔ state/motion tracer and detached snapshots (6.504756ms)
+✔ immutable config, fairness inequality, bounded steering and validation (4.832106ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (338.317393ms)
+✔ normal cwd-independent build emits exactly the runtime source bodies (64.469637ms)
+✔ public reader refuses serving-root symlink and non-allowlisted paths (7.922204ms)
+✔ public reader refuses final symlink (7.08628ms)
+✔ build refuses output-root symlink without touching outside data (48.111826ms)
+✔ build refuses dangling output-file link without creating outside target (43.960203ms)
+✔ export refuses dangling output link without creating outside target (46.9763ms)
+✔ archive refuses dangling output link without creating outside target (76.583024ms)
+✔ all stationary lateral positions eventually meet real traffic across deterministic seeds (1675.651754ms)
+✔ Normal legacy records preserved; Hard isolated and validated (1.72017ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.503248ms)
+✔ denied read and quota write have separate truthful session outcomes (0.370562ms)
+✔ successful exact key write; finite safe integers only (0.283842ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.143847ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (29.293442ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (11.226222ms)
+✔ real narrow pass awards once, distant pass awards nothing (35.048634ms)
+✔ large delta clamp and active time partitions agree (1.272247ms)
+✔ mode is validated and visible (2.267092ms)
+✔ typed geometry and optional swept radii are exact (0.780684ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (2271.05053ms)
+✔ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (294.879472ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7738.243988
+
+Running 10 tests using 1 worker
+
+  ✓   1 tests/e2e/delivery.spec.cjs:18:3 › source real play, screenshots and geometry (4.3s)
+  ✓   2 tests/e2e/delivery.spec.cjs:18:3 › dist real play, screenshots and geometry (3.9s)
+  ✓   3 tests/e2e/delivery.spec.cjs:18:3 › offline real play, screenshots and geometry (4.1s)
+  ✓   4 tests/e2e/game.spec.cjs:5:1 › native playable lifecycle tracer (11.3s)
+  ✓   5 tests/e2e/parent-acceptance.spec.cjs:4:1 › focused pause, key release, lost capture and simulated lifecycle signals freeze safely (2.4s)
+  ✓   6 tests/e2e/parent-acceptance.spec.cjs:65:1 › pause focus follows enabled running controls on start resume and replay (4.1s)
+  ✓   7 tests/e2e/parent-acceptance.spec.cjs:112:1 › axe ready, driving, paused and actual crash/results without exclusions (7.0s)
+  ✓   8 tests/e2e/v11.spec.cjs:14:1 › native mode, tutorial, combo HUD and lazy opt-in real audio lifecycle (2.4s)
+  ✓   9 tests/e2e/v11.spec.cjs:33:1 › missing/rejected audio stays playable; pending resume cannot revive paused or muted sound (2.2s)
+  ✓  10 tests/e2e/v11.spec.cjs:44:1 › real context delayed resume is invalidated by pause and mute without stale cues (1.4s)
+
+  10 passed (45.2s)

@@ -1,0 +1,633 @@
+
+> neon-drift@1.1.0 verify
+> npm run check && npm run build && npm run export && npm test && npm run test:manual && npm audit --fetch-retries=0 --fetch-timeout=15000
+
+
+> neon-drift@1.1.0 check
+> node scripts/check.cjs
+
+Runtime allowlist and JavaScript syntax OK
+
+> neon-drift@1.1.0 build
+> node scripts/build.cjs
+
+Built 7 runtime files in dist/
+
+> neon-drift@1.1.0 export
+> node scripts/export.cjs
+
+/root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html
+
+> neon-drift@1.1.0 test
+> node --test tests/*.test.cjs && playwright test
+
+✔ real OfflineAudioContext: engine, speed pitch, boost and cue signals; mute/pause silence (1107.072338ms)
+✔ state/motion tracer and detached snapshots (5.057269ms)
+✔ immutable config, fairness inequality, bounded steering and validation (2.634255ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (227.022331ms)
+✔ export refuses duplicate runtime scripts even when total count is unchanged (44.546573ms)
+✔ normal cwd-independent build emits exactly the runtime source bodies (49.041079ms)
+✔ public reader refuses serving-root symlink and non-allowlisted paths (3.062817ms)
+✔ public reader refuses final symlink (3.785941ms)
+✔ build refuses output-root symlink without touching outside data (38.73998ms)
+✔ build refuses dangling output-file link without creating outside target (44.124691ms)
+✔ export refuses dangling output link without creating outside target (39.882147ms)
+✔ archive refuses dangling output link without creating outside target (66.87642ms)
+✔ all stationary lateral positions eventually meet real traffic across deterministic seeds (1408.698014ms)
+✔ Normal legacy records preserved; Hard isolated and validated (1.76645ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.395968ms)
+✔ denied read and quota write have separate truthful session outcomes (0.391242ms)
+✔ successful exact key write; finite safe integers only (0.301121ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.116886ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (23.217972ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (8.463728ms)
+✔ real narrow pass awards once, distant pass awards nothing (20.752078ms)
+✔ large delta clamp and active time partitions agree (1.085446ms)
+✔ mode is validated and visible (2.249533ms)
+✔ typed geometry and optional swept radii are exact (0.344202ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (1796.7285ms)
+✔ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (139.969556ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6010.49299
+
+Running 31 tests using 1 worker
+
+  ✓   1 tests/e2e/delivery.spec.cjs:18:3 › source real play, screenshots and geometry (3.2s)
+  ✓   2 tests/e2e/delivery.spec.cjs:18:3 › dist real play, screenshots and geometry (3.0s)
+  ✓   3 tests/e2e/delivery.spec.cjs:18:3 › offline real play, screenshots and geometry (2.9s)
+  ✓   4 tests/e2e/game.spec.cjs:5:1 › native playable lifecycle tracer (21.9s)
+  ✓   5 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles decorations twice while driving without nitro (1.5s)
+  ✓   6 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles sound twice while driving without nitro (1.5s)
+  ✓   7 tests/e2e/native-settings.spec.cjs:51:3 › source: keyup on a setting still clears gameplay keys held before focus changed (1.6s)
+  ✓   8 tests/e2e/native-settings.spec.cjs:24:5 › dist: native Space toggles decorations twice while driving without nitro (1.7s)
+  ✓   9 tests/e2e/native-settings.spec.cjs:24:5 › dist: native Space toggles sound twice while driving without nitro (1.6s)
+  ✓  10 tests/e2e/native-settings.spec.cjs:51:3 › dist: keyup on a setting still clears gameplay keys held before focus changed (1.7s)
+  ✓  11 tests/e2e/native-settings.spec.cjs:24:5 › offline: native Space toggles decorations twice while driving without nitro (1.6s)
+  ✓  12 tests/e2e/native-settings.spec.cjs:24:5 › offline: native Space toggles sound twice while driving without nitro (1.6s)
+  ✓  13 tests/e2e/native-settings.spec.cjs:51:3 › offline: keyup on a setting still clears gameplay keys held before focus changed (1.6s)
+  ✓  14 tests/e2e/parent-acceptance.spec.cjs:4:1 › focused pause, key release, lost capture and simulated lifecycle signals freeze safely (1.9s)
+  ✓  15 tests/e2e/parent-acceptance.spec.cjs:65:1 › pause focus follows enabled running controls on start resume and replay (4.3s)
+  ✓  16 tests/e2e/parent-acceptance.spec.cjs:112:1 › axe ready, driving, paused and actual crash/results without exclusions (6.9s)
+  ✓  17 tests/e2e/v11-delivery.spec.cjs:5:2 › source normal native near-pass feedback, boost, crash and replay (9.4s)
+  ✓  18 tests/e2e/v11-delivery.spec.cjs:5:2 › source hard native near-pass feedback, boost, crash and replay (7.4s)
+  ✓  19 tests/e2e/v11-delivery.spec.cjs:5:2 › dist normal native near-pass feedback, boost, crash and replay (8.6s)
+  ✓  20 tests/e2e/v11-delivery.spec.cjs:5:2 › dist hard native near-pass feedback, boost, crash and replay (7.4s)
+  ✓  21 tests/e2e/v11-delivery.spec.cjs:5:2 › offline normal native near-pass feedback, boost, crash and replay (8.5s)
+  ✓  22 tests/e2e/v11-delivery.spec.cjs:5:2 › offline hard native near-pass feedback, boost, crash and replay (7.3s)
+  ✓  23 tests/e2e/v11.spec.cjs:5:1 › renderer respects actual widths, type silhouettes and reduced decoration boost suppression (689ms)
+  ✓  24 tests/e2e/v11.spec.cjs:19:2 › layout and all-phase accessibility 320 DPR2 (5.7s)
+  ✓  25 tests/e2e/v11.spec.cjs:19:2 › layout and all-phase accessibility 390 DPR2 (7.6s)
+  ✓  26 tests/e2e/v11.spec.cjs:19:2 › layout and all-phase accessibility 768 DPR2 (16.1s)
+  ✓  27 tests/e2e/v11.spec.cjs:19:2 › layout and all-phase accessibility 1366 DPR2 (13.5s)
+  ✓  28 tests/e2e/v11.spec.cjs:19:2 › layout and all-phase accessibility 1440 DPR2 (16.0s)
+  ✓  29 tests/e2e/v11.spec.cjs:62:1 › native mode, tutorial, combo HUD and lazy opt-in real audio lifecycle (2.4s)
+  ✓  30 tests/e2e/v11.spec.cjs:81:1 › missing/rejected audio stays playable; pending resume cannot revive paused or muted sound (2.1s)
+  ✓  31 tests/e2e/v11.spec.cjs:92:1 › real context delayed resume is invalidated by pause and mute without stale cues (1.5s)
+
+  31 passed (2.9m)
+
+> neon-drift@1.1.0 test:manual
+> node tests/manual/engine.cjs && node tests/manual/browser.cjs source && node tests/manual/browser.cjs dist && node tests/manual/browser.cjs offline && NEON_TOUCH=1 node tests/manual/browser.cjs offline && NEON_DIFFICULTY=hard node tests/manual/browser.cjs source && NEON_DIFFICULTY=hard node tests/manual/browser.cjs dist && NEON_DIFFICULTY=hard node tests/manual/browser.cjs offline && NEON_DIFFICULTY=hard NEON_TOUCH=1 node tests/manual/browser.cjs offline && node tests/manual/edge.cjs
+
+{
+  "modeSeedRuns": 120,
+  "activeSecondsPerRun": 200,
+  "determinismModeSeedRuns": 20,
+  "straightCrashModeSeedRuns": 40,
+  "sweptContactCases": 40000,
+  "narrowPass": {
+    "nearMisses": 1,
+    "nitro": 71
+  }
+}
+{
+  "mode": "source",
+  "difficulty": "normal",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/index.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 977,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 977,
+    "bestDistance": 488,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 660,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 14,
+  "errors": []
+}
+{
+  "mode": "dist",
+  "difficulty": "normal",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/dist/index.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 2115,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 2115,
+    "bestDistance": 1057,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 1401,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 14,
+  "errors": []
+}
+{
+  "mode": "offline",
+  "difficulty": "normal",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 929,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 929,
+    "bestDistance": 464,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 628,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 2,
+  "errors": []
+}
+{
+  "mode": "offline",
+  "difficulty": "normal",
+  "touch": true,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 11,
+        "y": 141,
+        "w": 368,
+        "h": 586,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 11,
+        "y": 727,
+        "w": 368,
+        "h": 74,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 21,
+        "y": 738,
+        "w": 52,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 281,
+        "y": 738,
+        "w": 88,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 2610,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 2610,
+    "bestDistance": 1305,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 1715,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 2,
+  "errors": []
+}
+{
+  "mode": "source",
+  "difficulty": "hard",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/index.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 1930,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 1930,
+    "bestDistance": 965,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 1126,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 14,
+  "errors": []
+}
+{
+  "mode": "dist",
+  "difficulty": "hard",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/dist/index.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 983,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 983,
+    "bestDistance": 491,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 585,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 14,
+  "errors": []
+}
+{
+  "mode": "offline",
+  "difficulty": "hard",
+  "touch": false,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 1366,
+    "height": 768,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 68,
+        "y": 157,
+        "w": 1230,
+        "h": 490,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 68,
+        "y": 647,
+        "w": 1230,
+        "h": 76,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 88,
+        "y": 659,
+        "w": 72,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 1166,
+        "y": 659,
+        "w": 112,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 1047,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 1047,
+    "bestDistance": 523,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 622,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 2,
+  "errors": []
+}
+{
+  "mode": "offline",
+  "difficulty": "hard",
+  "touch": true,
+  "target": "file:///root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html",
+  "style": {
+    "body": "rgb(8, 15, 29)",
+    "canvasCount": 1
+  },
+  "layout": {
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "boxes": [
+      {
+        "selector": "#road",
+        "x": 11,
+        "y": 141,
+        "w": 368,
+        "h": 586,
+        "inViewport": true
+      },
+      {
+        "selector": ".controls",
+        "x": 11,
+        "y": 727,
+        "w": 368,
+        "h": 74,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"left\"]",
+        "x": 21,
+        "y": 738,
+        "w": 52,
+        "h": 52,
+        "inViewport": true
+      },
+      {
+        "selector": "[data-input=\"nitro\"]",
+        "x": 281,
+        "y": 738,
+        "w": 88,
+        "h": 52,
+        "inViewport": true
+      }
+    ]
+  },
+  "score": 1229,
+  "save": "Rekor berhasil disimpan di browser ini.",
+  "stored": {
+    "version": 1,
+    "bestScore": 1229,
+    "bestDistance": 614,
+    "bestNearMisses": 0,
+    "runs": 1
+  },
+  "raf": {
+    "ticks": 725,
+    "max": 1,
+    "pending": 0
+  },
+  "requests": 2,
+  "errors": []
+}
+{
+  "cases": 13,
+  "allPassed": true
+}
+found 0 vulnerabilities

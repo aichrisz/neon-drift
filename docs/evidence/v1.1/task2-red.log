@@ -1,0 +1,57 @@
+✖ Normal legacy records preserved; Hard isolated and validated (1.88065ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.183847ms)
+✔ denied read and quota write have separate truthful session outcomes (0.525203ms)
+✔ successful exact key write; finite safe integers only (0.583483ms)
+✔ mode is validated and visible (2.289973ms)
+✔ typed geometry and optional swept radii are exact (0.356762ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (1804.537885ms)
+✖ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (1.69609ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1973.403573
+
+✖ failing tests:
+
+test at tests/records.test.cjs:4:1
+✖ Normal legacy records preserved; Hard isolated and validated (1.88065ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/records.test.cjs:7:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/v11-engine.test.cjs:69:1
+✖ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (1.69609ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  undefined !== 0
+
+      at /root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:83:11
+      at nearDrive (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:66:86)
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:72:3)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -34,6 +34,12 @@ const run = (root, name) =>
     encoding: "utf8",
     timeout: 15000,
   });
+test('export refuses duplicate runtime scripts even when total count is unchanged',()=>
+  fixture((top,root)=>{
+    const file=path.join(root,'index.html');
+    fs.writeFileSync(file,fs.readFileSync(file,'utf8').replace('src="engine.js"','src="audio.js"'));
+    assert.notEqual(run(root,'export.cjs').status,0,'each allowlisted script must occur exactly once');
+  }));
 test("normal cwd-independent build emits exactly the runtime source bodies", () =>
   fixture((top, root) => {
     const r = run(root, "build.cjs");

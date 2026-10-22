@@ -1,0 +1,34 @@
+
+> neon-drift@1.0.0 test:unit
+> node --test tests/*.test.cjs
+
+✔ state/motion tracer and detached snapshots (5.214709ms)
+✔ immutable config, fairness inequality, bounded steering and validation (2.881336ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (242.636812ms)
+✔ normal cwd-independent build emits exactly the runtime source bodies (52.358048ms)
+✔ public reader refuses serving-root symlink and non-allowlisted paths (2.754095ms)
+✔ public reader refuses final symlink (2.598494ms)
+✔ build refuses output-root symlink without touching outside data (40.206501ms)
+✔ build refuses dangling output-file link without creating outside target (42.973555ms)
+✔ export refuses dangling output link without creating outside target (42.232352ms)
+✔ archive refuses dangling output link without creating outside target (71.126431ms)
+✔ all stationary lateral positions eventually meet real traffic across deterministic seeds (1425.526022ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.96405ms)
+✔ denied read and quota write have separate truthful session outcomes (0.764924ms)
+✔ successful exact key write; finite safe integers only (0.499963ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.075086ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (18.732903ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (7.136399ms)
+✔ real narrow pass awards once, distant pass awards nothing (24.553495ms)
+✔ large delta clamp and active time partitions agree (0.829204ms)
+✔ mode is validated and visible (2.175132ms)
+✔ typed geometry and optional swept radii are exact (0.385682ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (1774.148777ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4167.866352

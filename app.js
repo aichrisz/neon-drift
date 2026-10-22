@@ -193,7 +193,12 @@
       if (mapping[e.code]) {
         keys.delete(e.code);
         input();
-        if (engine.snapshot().phase === "running") e.preventDefault();
+        // Release held driving keys even if focus moved to a setting. Native
+        // checkbox Space activation occurs on keyup, so preserve its default.
+        if (
+          engine.snapshot().phase === "running" &&
+          !["INPUT", "SELECT"].includes(e.target.tagName)
+        ) e.preventDefault();
       }
     });
     for (const b of buttons) {

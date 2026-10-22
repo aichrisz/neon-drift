@@ -1,0 +1,91 @@
+✖ mode is validated and visible (1.89241ms)
+✖ typed geometry and optional swept radii are exact (1.592128ms)
+✖ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (7.440881ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.176338
+
+✖ failing tests:
+
+test at tests/v11-engine.test.cjs:4:1
+✖ mode is validated and visible (1.89241ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:5:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/v11-engine.test.cjs:12:1
+✖ typed geometry and optional swept radii are exact (1.592128ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + undefined
+  - {
+  -   compact: {
+  -     length: 3.8,
+  -     speed: 22,
+  -     width: 0.28
+  -   },
+  -   sedan: {
+  -     length: 4.4,
+  -     speed: 20,
+  -     width: 0.34
+  -   },
+  -   van: {
+  -     length: 6,
+  -     speed: 16,
+  -     width: 0.46
+  -   }
+  - }
+
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:14:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { compact: { width: 0.28, length: 3.8, speed: 22 }, sedan: { width: 0.34, length: 4.4, speed: 20 }, van: { width: 0.46, length: 6, speed: 16 } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/v11-engine.test.cjs:33:1
+✖ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (7.440881ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert([-1,0,1].some(x=>group.every(a=>Math.abs(x-a.x)>(.32+a.width)/2)))
+
+      at /root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:42:5
+      at drive (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:30:17)
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/v11-engine.test.cjs:36:3)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

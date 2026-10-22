@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 local delivery — 2026-10-22 (not published)
+
+- Normal/Hard with separate Hard records and preserved legacy Normal saves.
+- Compact/sedan/van dimensions and speeds; integrated follower-wave gap floors with sustained mixed-speed traversal tests.
+- Eight-active-second near-pass combo, accumulated multiplier bonuses, capped nitro event feedback and replay reset.
+- Native mode/settings controls; lazy opt-in synthesized engine/boost/near-pass sound with immediate lifecycle silence and guarded async resume.
+- Actual-width/type rendering, material/light detail, bounded roof suspension, layered skyline, spray/trails and reduced-decoration suppression.
+- Responsive 320×568 through1440-wide DPR2 layouts with all-phase axe/non-overlap checks; native Normal/Hard near-pass/boost/crash/replay delivery captures.
+- Export duplicate-script and native Space checkbox regressions; independent geometry/reward/resource oracle expansion. Parent gate26unit/31browser/13edge/eight lifecycle variants passed; online audit0; fresh exact-Astra review ship with a low-severity audio-label note. Local acceptance and limits: docs/v1.1-parent-acceptance.md. No v1.1 deployment.
+
 ## 1.0.0 local release — 2026-10-22
 
 - Playable rear-camera perspective traffic arcade with procedural rainy skyline and wet road.

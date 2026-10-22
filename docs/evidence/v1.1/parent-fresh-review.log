@@ -1,0 +1,26 @@
+Verdict: ship untuk kandidat lokal, bukan izin publish. Review menggunakan gpt-6-astra; tidak ada file/index yang diubah dan tidak ada pengujian proyek yang dijalankan ulang.
+
+Seluruh 70 hash cocok, termasuk fingerprint 94322daf1656dbe79513e6279bea1aef77846676c105d53e0c7fff88f1313a35. Tujuh runtime asset identik antara source/dist; standalone memuat setiap skrip tepat sekali tanpa referensi eksternal. ZIP memiliki tepat 70 entri yang diharapkan dan lolos pemeriksaan integritas.
+
+Tidak ditemukan pelanggaran material pada fairness, collision/resource clipping, reward/combo, isolasi rekor, kontrol, atau batas distribusi. Pemeriksaan yang masih berjalan saat dispatch selesai selama review: raw evidence mendukung 26 unit, 31 browser tanpa skipped/flaky/unexpected, delapan varian lifecycle, 13 edge case, dan audit nol kerentanan; gate-v11.json sudah tersedia. Ada satu catatan kecil mengenai label audio.
+
+{
+  "verdict": "ship",
+  "findings": [
+    {
+      "severity": "low",
+      "file": "audio.js:74-80; app.js:10-11",
+      "reason": "Saat audio sudah aktif lalu permainan dijeda atau selesai, output dibisukan tetapi status tetap 'on'. Status 'paused' hanya dilaporkan ketika resume masih pending, sehingga label 'Suara aktif' dapat tetap terlihat saat permainan diam. Ini inkonsistensi informasi, bukan kebocoran suara.",
+      "required_change": "Samakan pelaporan status dengan fase permainan, atau bedakan secara eksplisit label preferensi 'suara diaktifkan' dari status pemutaran. Tambahkan assertion label pada pause, results, dan resume."
+    }
+  ],
+  "limitations": [
+    "Delapan varian lifecycle, 13 edge case, dan audit masih pending saat dispatch. Penyelesaiannya kini didukung raw evidence yang dibaca, bukan diasumsikan. Parent tetap harus memverifikasi status read-only/fingerprint setelah review dan identitas paket final sebelum release.",
+    "ZIP diperiksa daftar entri, kelengkapan, duplikasi, dan integritas CRC; kesamaan byte setiap anggota ZIP terhadap source/commit final belum diverifikasi independen dalam review ini.",
+    "Bukti audio menguji waveform nyata dan lifecycle Chromium, tetapi jalur crash/results dengan suara tetap aktif serta delayed resume menuju results belum mendapat assertion langsung yang setara. Guard fase pada source mencakup jalur tersebut.",
+    "Assertion renderer membuktikan perubahan gambar berdasarkan width/type dan penekanan efek boost, bukan oracle numerik lengkap untuk alignment visual-hitbox. Alignment juga ditinjau dari rumus proyeksi source; screenshot tidak diinspeksi visual ulang oleh reviewer ini.",
+    "Tidak ada klaim verifikasi Safari, Firefox, perangkat ponsel nyata, penggunaan screen reader manual, atau kualitas suara melalui pendengaran manusia."
+  ]
+}
+
+session_id: 20261022_172713_8e5f77

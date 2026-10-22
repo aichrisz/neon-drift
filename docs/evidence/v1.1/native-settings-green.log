@@ -1,0 +1,67 @@
+
+> neon-drift@1.1.0 test:unit
+> node --test tests/*.test.cjs
+
+✔ real OfflineAudioContext: engine, speed pitch, boost and cue signals; mute/pause silence (1079.404104ms)
+✔ state/motion tracer and detached snapshots (4.747506ms)
+✔ immutable config, fairness inequality, bounded steering and validation (2.828016ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (232.706659ms)
+✔ export refuses duplicate runtime scripts even when total count is unchanged (44.222047ms)
+✔ normal cwd-independent build emits exactly the runtime source bodies (48.884113ms)
+✔ public reader refuses serving-root symlink and non-allowlisted paths (5.955474ms)
+✔ public reader refuses final symlink (6.296755ms)
+✔ build refuses output-root symlink without touching outside data (39.263939ms)
+✔ build refuses dangling output-file link without creating outside target (41.740513ms)
+✔ export refuses dangling output link without creating outside target (41.520152ms)
+✔ archive refuses dangling output link without creating outside target (71.142357ms)
+✔ all stationary lateral positions eventually meet real traffic across deterministic seeds (1435.563651ms)
+✔ Normal legacy records preserved; Hard isolated and validated (1.78589ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.702529ms)
+✔ denied read and quota write have separate truthful session outcomes (0.360922ms)
+✔ successful exact key write; finite safe integers only (0.539643ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.139847ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (18.979746ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (6.657078ms)
+✔ real narrow pass awards once, distant pass awards nothing (24.207695ms)
+✔ large delta clamp and active time partitions agree (1.107686ms)
+✔ mode is validated and visible (2.256893ms)
+✔ typed geometry and optional swept radii are exact (0.553444ms)
+✔ sustained mixed-speed traversal: integrated gap, shared wave speed, population and variety in both modes (1822.36097ms)
+✔ actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay (171.012954ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6059.292296
+
+> neon-drift@1.1.0 check
+> node scripts/check.cjs
+
+Runtime allowlist and JavaScript syntax OK
+
+> neon-drift@1.1.0 build
+> node scripts/build.cjs
+
+Built 7 runtime files in dist/
+
+> neon-drift@1.1.0 export
+> node scripts/export.cjs
+
+/root/projects/neon-drift/.worktrees/v1.1/artifacts/Neon-Drift.html
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles decorations twice while driving without nitro (1.8s)
+  ✓  2 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles sound twice while driving without nitro (1.6s)
+  ✓  3 tests/e2e/native-settings.spec.cjs:51:3 › source: keyup on a setting still clears gameplay keys held before focus changed (1.5s)
+  ✓  4 tests/e2e/native-settings.spec.cjs:24:5 › dist: native Space toggles decorations twice while driving without nitro (1.6s)
+  ✓  5 tests/e2e/native-settings.spec.cjs:24:5 › dist: native Space toggles sound twice while driving without nitro (1.5s)
+  ✓  6 tests/e2e/native-settings.spec.cjs:51:3 › dist: keyup on a setting still clears gameplay keys held before focus changed (1.6s)
+  ✓  7 tests/e2e/native-settings.spec.cjs:24:5 › offline: native Space toggles decorations twice while driving without nitro (1.6s)
+  ✓  8 tests/e2e/native-settings.spec.cjs:24:5 › offline: native Space toggles sound twice while driving without nitro (1.6s)
+  ✓  9 tests/e2e/native-settings.spec.cjs:51:3 › offline: keyup on a setting still clears gameplay keys held before focus changed (1.5s)
+
+  9 passed (15.5s)

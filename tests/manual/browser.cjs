@@ -15,6 +15,8 @@ const {
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   const touch = process.env.NEON_TOUCH === "1";
+  const difficulty = process.env.NEON_DIFFICULTY || "normal";
+  const recordKey = "neon-drift.records.v1" + (difficulty === "hard" ? ".hard" : "");
   const browser = await chromium.launch({
     executablePath:
       process.env.CHROMIUM_PATH ||
@@ -60,6 +62,7 @@ const {
       fullPage: true,
     });
     assert.equal(await page.evaluate(() => window.__parentRafAudit.pending), 0);
+    await page.locator('#mode').selectOption(difficulty);
     await start.click();
     await page.clock.runFor(64);
     assert.equal(await page.locator("#phase").textContent(), "MENGEMUDI");
@@ -187,16 +190,12 @@ const {
     assert.ok(score > 0);
     const save = await page.locator("#save-status").textContent();
     assert.ok(save.trim());
-    const stored = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("neon-drift.records.v1")),
-    );
+    const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)),recordKey);
     assert.equal(stored.runs, 1);
     assert.equal(stored.bestScore, score);
     await page.clock.runFor(2000);
     assert.deepEqual(
-      await page.evaluate(() =>
-        JSON.parse(localStorage.getItem("neon-drift.records.v1")),
-      ),
+      await page.evaluate(key => JSON.parse(localStorage.getItem(key)),recordKey),
       stored,
     );
     const raf = await page.evaluate(() => window.__parentRafAudit);
@@ -217,9 +216,7 @@ const {
     await page.clock.runFor(64);
     assert.equal(await page.locator("#phase").textContent(), "SIAP");
     assert.deepEqual(
-      await page.evaluate(() =>
-        JSON.parse(localStorage.getItem("neon-drift.records.v1")),
-      ),
+      await page.evaluate(key => JSON.parse(localStorage.getItem(key)),recordKey),
       stored,
     );
     assert.deepEqual(errors, []);
@@ -230,6 +227,7 @@ const {
       );
     const result = {
       mode,
+      difficulty,
       touch,
       target,
       style,

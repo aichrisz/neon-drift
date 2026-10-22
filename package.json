@@ -1,6 +1,6 @@
 {
   "name": "neon-drift",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Offline neon rain traffic arcade — zero runtime dependencies",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "node --test tests/*.test.cjs && playwright test",
     "test:unit": "node --test tests/*.test.cjs",
     "test:browser": "playwright test",
-    "test:manual": "node tests/manual/engine.cjs && node tests/manual/browser.cjs source && node tests/manual/browser.cjs dist && node tests/manual/browser.cjs offline && NEON_TOUCH=1 node tests/manual/browser.cjs offline && node tests/manual/edge.cjs",
+    "test:manual": "node tests/manual/engine.cjs && node tests/manual/browser.cjs source && node tests/manual/browser.cjs dist && node tests/manual/browser.cjs offline && NEON_TOUCH=1 node tests/manual/browser.cjs offline && NEON_DIFFICULTY=hard node tests/manual/browser.cjs source && NEON_DIFFICULTY=hard node tests/manual/browser.cjs dist && NEON_DIFFICULTY=hard node tests/manual/browser.cjs offline && NEON_DIFFICULTY=hard NEON_TOUCH=1 node tests/manual/browser.cjs offline && node tests/manual/edge.cjs",
     "verify": "npm run check && npm run build && npm run export && npm test && npm run test:manual && npm audit --fetch-retries=0 --fetch-timeout=15000",
     "verify:offline": "npm run check && npm run build && npm run export && npm test && npm run test:manual && npm audit --offline",
     "package": "python3 scripts/package.py"

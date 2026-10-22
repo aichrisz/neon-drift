@@ -1,59 +1,107 @@
 # Neon Drift
 
-**v1.0.0 · Kejar malam. Bukan tabrakan.**
+**v1.1.0 · Kejar malam. Bukan tabrakan.**
 
-Rear-camera pseudo-3D endless traffic arcade, implemented with exact-model `gpt-6-astra` and independently exercised by the parent. No runtime dependencies, accounts, network assets, fonts, analytics, or sound.
+Rear-camera pseudo-3D endless traffic arcade. Zero runtime dependencies, accounts, analytics, fonts or downloaded assets. Optional synthesized WebAudio; no microphone or external audio requests.
 
-**Play live:** https://aichrisz.github.io/neon-drift/
+## Delivery status
 
-**Source:** https://github.com/aichrisz/neon-drift
+This is the verified v1.1.0 local delivery on `feat/neon-drift-v1.1`. Parent reran26 unit +31 browser +13 edge cases and eight delivery/mode/touch lifecycle runs, inspected actual screenshots, and obtained a fresh exact-Astra read-only **ship** review. Online audit returned0 findings. See `docs/v1.1-parent-acceptance.md` for exact commands, independent oracles and the nonblocking audio-label note. This work does not publish anything.
 
-Published to GitHub Pages after Abel explicitly requested push/deployment. Tag `v1.0.0` remains the original verified game source; publication documentation is on `main`.
+Historical v1.0 live game: https://aichrisz.github.io/neon-drift/
+Source repository: https://github.com/aichrisz/neon-drift
+
+The existing live v1.0 and tag `v1.0.0` are unchanged. Historical v1.0 publication/acceptance evidence is not a claim that v1.1 has been released or independently approved.
 
 ## Play
 
-Open index.html directly, or run `npm start` and visit http://127.0.0.1:4187. Open artifacts/Neon-Drift.html for the single-file offline edition. Indonesian UI. Hold A/D or Left/Right to steer, S/Down to brake, Space/W/Up for nitro. Touch controls support separate held pointers. P/Esc pauses; losing visibility/focus pauses. Resume explicitly. A collision ends the run. Near passes replenish nitro. Replay resets the run, not the record.
+Open `index.html` directly, or run `npm start` and visit http://127.0.0.1:4187. The exported `artifacts/Neon-Drift.html` is standalone and needs no neighboring files. Indonesian UI.
 
-## Development
+- Select Normal or Hard before starting or on results. Difficulty cannot change during play or pause. Replay retains the selected mode.
+- Hold A/D or Left/Right to steer, S/Down to brake, Space/W/Up for nitro. Separate held touch pointers support steering and a pedal together. Both directions cancel; brake takes priority over boost.
+- P/Esc pauses, including while settings have focus. Blur, pagehide and hidden state auto-pause. Resume explicitly; there is no background catch-up.
+- Pass close, then clear the vehicle's entire length: gain up to16 nitro, capped100. No passive refill. The HUD reports the actual capped amount, highlights the meter and shows combo/time remaining.
+- Another near pass within8 active seconds increments combo. Bonuses are150,300,450,600, then600 per pass; only the pass bonus is multiplied. Paused time does not expire combo. Collision ends the run.
+- Sound starts off. Check “Suara mati” to opt in; status changes to active, waiting, paused or unavailable truthfully. Uncheck to mute. Unsupported/blocked audio never prevents play.
+- “Efek hujan” disables rain, spray, trails, skyline parallax, boost exhaust/streaks and body roll. Reduced-motion preference defaults it off. Essential road/traffic motion remains.
 
-Node with npm and Python3 required. `npm ci --ignore-scripts` installs the lockfile with exact dev pins @playwright/test 1.64.1 and axe-core 4.14.0. Chromium path is configured in playwright.config.cjs; override with CHROMIUM_PATH. Runtime does not need these tools.
+## Development and delivery
 
-Commands: `npm run check`, `npm run build`, `npm run export`, `npm test`, `npm run test:manual`, `npm run verify`, `npm run package`. `npm test` runs unit and browser suites; `npm run verify` adds independent domain, source/dist/standalone play-throughs, emulated multitouch and adversarial browser matrix. Run `npm audit` separately for online dependency advisory results. Helpers anchor themselves to the project, not the caller's working directory. Source ZIP includes tracked source, tests, docs and helpers; stage new intended files before packaging. No recursive deletion. Output goes only to dist/ and artifacts/. Server binds only 127.0.0.1:4187 and serves the shared six-file runtime allowlist. `node scripts/server.cjs --dist` serves the build instead. Stop an existing server before running browser tests.
+Node with npm and Python3 required. Existing exact-pinned dev tools are @playwright/test1.64.1 and axe-core4.14.0. No dependencies were added for v1.1. Chromium path is configured in `playwright.config.cjs`; override with `CHROMIUM_PATH`. Runtime needs no tooling.
 
-## Architecture and public contract
+```
+npm run check
+npm run build
+npm run export
+npm test
+npm run test:manual
+npm run verify
+git diff --check
+# Stage every intended new source/test/doc before packaging:
+npm run package
+```
 
-engine.js (pure domain) -> detached snapshot -> renderer.js (Canvas perspective)
-app.js (native input, lifecycle, one rAF chain) -> engine.js
-app.js -> records.js (validated origin-local persistence)
-index.html + styles.css -> semantic HUD, dialogs and held buttons
+`npm run verify` performs syntax/allowlist, build, export, unit/browser suites, independent domain/manual browser matrix, then online `npm audit --fetch-retries=0 --fetch-timeout=15000`. Audit is bounded; unavailable network/advisory results must be reported rather than inferred. `verify:offline` is an explicit alternative, not an online advisory-freshness claim.
 
-CommonJS `require('./engine.js')` and browser `Neon` expose Engine, immutable CONFIG, and pure sweepContact. `Engine.create({seed})` accepts uint32; methods: start(), setInput({left,right,brake,nitro}), step(seconds), pause(), resume(), snapshot(). No live engine reference is attached to the DOM/window. Snapshots include phase, elapsed, distance, speed, score, nitro, nearMisses, playerX, traffic, boosting and crash.
+`test:manual` covers Normal and Hard through source/build/standalone crash/save/retry/reload, plus standalone emulated multitouch in both modes and the adversarial edge matrix. New browser tests additionally exercise near-pass HUD/recharge and unavailable audio for both modes on every delivery.
 
-World x lane centers are -1, 0, 1, bounds [-1,1]. Distances in metres, speed metres/second. CONFIG is authoritative. Start speed36; cruise46 rising .12 per active second to58; nitro84; brake22; traffic20. Acceleration24 and deceleration48 m/s². Steering1.6 lane units/s. Substeps at most1/120s; each step(seconds) clamps accepted work to .25s, discarding excess. Browser frames cap .1s and lifecycle loss pauses instead of catching up. Invalid negative/nonfinite deltas and nonboolean input flags throw before mutation. Partial input replaces other flags with false. Both directions cancel. Brake has priority.
+Helpers anchor to the project, not caller cwd. Outputs go only to `dist/` and `artifacts/`. Source ZIP includes tracked/staged source, tests, docs and helpers, never generated output or dependencies; every member's bytes and ZIP integrity are checked by `scripts/package.py`. Server binds127.0.0.1:4187. `node scripts/server.cjs --dist` serves the build. Shared explicit seven-file runtime allowlist: index.html, styles.css, engine.js, records.js, renderer.js, audio.js, app.js. Export embeds every runtime script exactly once. Ancestor/final/dangling symlinks are refused; no path-boundary widening. Stop an existing test server before browser suites.
 
-Fairness: two-lane traversal = 2/1.6 = 1.25s. Worst relative speed = 84-20 = 64m/s. Required window includes BOTH entry/exit contact zones: 64*1.25+2*4.4 = 88.8m. Wave spacing125m and spawn lookahead310m both strictly exceed88.8m. Waves contain at most two original lanes; every wave leaves an integer lane center open. The first two waves are centered; subsequent waves cycle static lateral offsets -0.22,0,+0.22, with no extra RNG draws. Open-lane clearance is at least 0.78 lane units, greater than contactWidth0.33; cars remain inside the road. Varying offsets close permanent inter-lane invulnerability, so players must keep steering rather than park between lanes to farm score/nitro. First traffic is310m away. Population cap10 and passed removal at z<=-20. Seeded LCG makes equivalent input/delta sequences reproducible.
+## Architecture and domain contract
 
-Car widths .32/.34 lane units; combined half width .33. Both lengths4.4m, combined half length4.4. Collision is inclusive swept two-axis segment/box intersection on each bounded step. Integration truncates at first contact, including time, distance, resource drain and traffic. No pass rewards in a colliding substep; results never progress. Each step is a documented constant mean-velocity segment, not an unbounded variable-delta teleport.
+```
+engine.js -> detached frozen snapshot -> renderer.js
+app.js -> native DOM/input/lifecycle, one active rAF chain
+app.js -> engine.js, mode-scoped records.js, lazy audio.js
+```
 
-Near passes award once only after z<-4.4 and minimum lateral separation while longitudinally overlapping is >.33 and <=.49. Reward150 points plus16 nitro, capped100. Starting nitro55; boost drains26/s, split at exhaustion. No passive recharge. Score=floor(distance*2)+nearMisses*150. Speed display converts to km/h. Road bends never alter collision geometry; renderer uses a genuine perspective horizon and depth-scaled cars.
+CommonJS `require('./engine.js')` and browser `Neon` expose Engine, frozen CONFIG/MODE_CONFIG/VEHICLES and pure sweepContact. `Engine.create({seed,mode='normal'})` accepts uint32 seed and only Normal/Hard mode keys (`normal`, `hard`). Methods: start(), setInput({left,right,brake,nitro}), step(seconds), pause(), resume(), snapshot(). No live game instance is attached to DOM/window. Snapshots, traffic arrays/cars, crash and lastNearMiss events are detached and frozen.
+
+World x lane centers are -1,0,1; steering bounds[-1,1]. Length/distance in metres, speed in m/s; HUD converts speed to km/h.
+
+| Mode | Start | Cruise | Maximum cruise | Increase/active second | Wave spacing ramp |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Normal | 36 | 46 | 58 | .12 | 140 to125 over120s |
+| Hard | 42 | 52 | 66 | .20 | 125 to108 over90s |
+
+Boost84, brake22, acceleration24/deceleration48m/s², steerRate1.6 lane units/s. Player width.32 and length4.4. Traffic types:
+
+| Type | Width (lane units) | Length | Desired speed |
+| --- | ---: | ---: | ---: |
+| compact | .28 | 3.8 | 22 |
+| sedan | .34 | 4.4 | 20 |
+| van | .46 | 6 | 16 |
+
+Each wave shares one type and actual speed, occupies1–2 lanes and leaves an integer center clear. Two introductory waves are centered; later static offsets cycle-.22,0,+.22, closing permanent inter-lane parking corridors. Renderer uses actual widths and length footprints, projected at the actual rear edge. Roof suspension is bounded; no decorative lateral displacement of collision geometry.
+
+### Mixed-speed fairness
+
+Higher-z traffic leads lower-z traffic in world coordinates. On each bounded integration segment, leaders are evaluated first; a follower's actual speed is the minimum of its desired speed and `leaderSpeed + max(0, gap-minGap)/dt`. All members share that speed. Thus the per-run center gap floor125 Normal/108 Hard is preserved by velocity integration, not positional correction/teleport. Spawn lookahead310; population bounded10; passed traffic removed at z<=-20.
+
+Worst differential68m/s, full traversal `2/1.6=1.25s`, largest combined half-length `(4.4+6)/2=5.2m`. The required center gap includes both zones: `68*1.25+2*5.2=95.4m <108m`. This is backed by successful sustained ordinary-input pure-domain drivers across mixed types/offset phases, not merely by open-lane claims. It does not promise recovery from an arbitrarily late/wrong maneuver.
+
+Each step clamps accepted work to.25s, subdivides to at most1/120s, and splits at nitro exhaustion. Browser frames cap.1s. Each segment uses mean velocity; swept contact truncates time, distance, resources and all traffic at earliest collision. No reward in a colliding substep. Invalid deltas/input flags throw before mutation; partial input replaces other flags with false.
+
+### Collision, combo and score
+
+For each type, contact half-width is `(.32+width)/2`, half-length `(4.4+length)/2`; exact edges collide. `sweepContact(x0,z0,x1,z1,halfWidth=.33,halfLength=4.4)` retains v1.0 helper defaults.
+
+A vehicle rewards only once after z falls below negative actual contact half-length, if minimum lateral separation through the full longitudinal zone is greater than contact half-width and at most that width+.16. Starting nitro55; boost drains26/s; each reward restores min(16,100-currentNitro).
+
+Combo starts0/multiplier1. First pass gives combo1; subsequent passes before the previous pass's eight-active-second window expires increment count; multiplier=min(4,combo). Expiry resets0/1. `nearMissBonus` accumulates150*multiplier per pass. Exact score is `floor(distance*2)+nearMissBonus`; never multiply old rewards or distance retroactively. Snapshot includes combo, multiplier, comboRemaining, bestCombo, nearMissBonus, lastNearMiss `{id,elapsed,nitroAdded,bonus,combo,multiplier}`. Event ID increases per rewarded vehicle within a run; simultaneous rewards leave the last event in snapshot while score/count include all. Replay resets resources/events/combo. HUD announcement changes only for new event IDs, not every frame; feedback lifetime uses active simulation time.
 
 ## Records
 
-Key neon-drift.records.v1; version1 JSON, maximum1024 UTF-8 bytes. Whitelisted integer bestScore/bestDistance<=1e9, bestNearMisses<=1e7, runs<=1e6. Invalid fields default0; prototype-like payloads rejected. Completed run is saved once by controller, never while active. Denied reads/writes retain session records with visible truthful save outcome. Records are origin-specific; file URLs/private mode may not persist.
+Normal preserves key `neon-drift.records.v1` and existing version1 JSON. Hard uses `neon-drift.records.v1.hard`; switching modes never erases Normal. `Records.open(storage,{mode='normal'})` retains backward compatibility. Maximum1024 UTF-8 bytes. Whitelisted integers: bestScore/bestDistance<=1e9, bestNearMisses<=1e7, runs<=1e6. Invalid fields default0; prototype-like payloads rejected. Saves occur once after results. Denied reads/quota writes retain session records with truthful visible status. Origin/file/private-mode restrictions apply.
 
-## Accessibility and limitations
+## Audio contract
 
-Native controls, explicit focus, text HUD, labeled meter, decoration toggle defaulting off for reduced motion. Necessary traffic/road motion remains. Canvas driving needs visual reaction; keyboard access and axe do not establish equivalent nonvisual gameplay. No audio. Chromium automation only; no physical-device, Safari/Firefox or human accessibility acceptance claimed.
+`Neon.Audio.create({createContext?,onStatus?})` returns setEnabled(bool), activate(), update(snapshot), resetRun(), status(). Only real user gestures invoke setEnabled/activate; update never creates or resumes WebAudio. Default muted; no context until opt-in. Engine pitch follows speed, boost adds oscillator/noise, near-pass cues have a short envelope. One context, three persistent oscillators and one deterministic looped noise source per controller; no timer/voice accumulation on replay. Master gain and pending cue envelope are zeroed immediately on mute/pause/blur/hidden/results. Async resume uses generation invalidation and current state; rejected creation/resume is caught and unavailable is shown. Muted/pending events are consumed so enabling later cannot replay a stale cue.
 
-## Verification and release evidence
+Real OfflineAudioContext waveform/RMS tests and native browser-context instrumentation verify signal and lifecycle. No human auditory/device certification is claimed.
 
-- 19 unit/boundary tests and 7 browser tests, no exclusions or skipped tests.
-- Parent domain oracle: seeded fairness/scoring/determinism, 20 unattended center-run crashes and 10,000 alternate-algorithm swept-contact cases.
-- Native source, build and standalone crash/save/retry/reload play-throughs; standalone requires no neighboring file or network request.
-- Standalone 390×844 Chromium touch emulation with simultaneous held steering/nitro and actual pointer cancellation. This is not physical-device certification.
-- 13 additional browser cases: five responsive viewports (320–1440 wide), corrupt/oversized/adversarial/denied/quota storage, reduced motion, no JavaScript, and real near-pass nitro recharge through ordinary controls.
-- Axe checks READY, DRIVING, PAUSED and RESULTS; simulated pagehide/visibility/blur signals freeze play. A persistent heading fixes the observed in-play heading regression.
-- Runtime/source/export/package boundary tests use synthetic fixture data, including dangling and ancestor symlinks.
-- The permanent safe-corridor strategy is regression-tested at 41 stationary lateral positions across five deterministic seeds. Enabled pause controls receive keyboard focus after start/resume/retry.
+## Evidence and limits
 
-`docs/tdd-evidence.md` preserves historical RED/GREEN and clearly distinguishes initial implementation evidence from expanded parent acceptance. `artifacts/acceptance/gate.json`, `artifacts/independent-review.json`, and `artifacts/release-manifest.json` accompany local release verification. Screenshots are actual browser captures, visually inspected by the parent, not mockups. No physical-device, Safari/Firefox, manual screen-reader, or nonvisual driving-equivalence claim. Source archive contains committed source, tests, documentation, and retained evidence; generated files remain outside Git.
+`docs/v1.1-implementation-evidence.md` records actual per-task RED/GREEN commands, harness corrections, counts and handoff status. Raw v1.1 logs/captures/reports are in `artifacts/evidence/v1.1/`; selected raw checkpoints are retained in `docs/evidence/v1.1/`. `docs/tdd-evidence.md` preserves historical v1.0 evidence separately.
+
+Native controls, focus, text HUD and labeled meters are tested. Five DPR2 viewports include320×568,390×844,768×1024,1366×768,1440×900 with all-phase axe and non-overlap checks. Canvas driving still requires visual reaction. Chromium automation/emulated touch is not physical-device, Safari/Firefox, screen-reader usability or nonvisual-equivalence certification. Captures are actual browser output; parent visual inspection and independent local acceptance are now recorded in `docs/v1.1-parent-acceptance.md`. No physical/human usability certification or v1.1 publication is claimed.

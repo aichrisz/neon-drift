@@ -1,0 +1,36 @@
+✖ export refuses duplicate runtime scripts even when total count is unchanged (51.82157ms)
+✔ normal cwd-independent build emits exactly the runtime source bodies (47.632467ms)
+✔ public reader refuses serving-root symlink and non-allowlisted paths (2.923856ms)
+✔ public reader refuses final symlink (3.55558ms)
+✔ build refuses output-root symlink without touching outside data (38.276854ms)
+✔ build refuses dangling output-file link without creating outside target (46.284339ms)
+✔ export refuses dangling output link without creating outside target (40.487187ms)
+✔ archive refuses dangling output link without creating outside target (71.57912ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 383.400345
+
+✖ failing tests:
+
+test at tests/parent-boundary.test.cjs:37:1
+✖ export refuses duplicate runtime scripts even when total count is unchanged (51.82157ms)
+  AssertionError [ERR_ASSERTION]: each allowlisted script must occur exactly once
+      at /root/projects/neon-drift/.worktrees/v1.1/tests/parent-boundary.test.cjs:41:12
+      at fixture (/root/projects/neon-drift/.worktrees/v1.1/tests/parent-boundary.test.cjs:26:12)
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/v1.1/tests/parent-boundary.test.cjs:38:3)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

@@ -6,7 +6,7 @@ const path = require("node:path");
 const ROOT =
   process.env.NEON_ROOT || require("node:path").resolve(__dirname, "../..");
 const { chromium } = require(ROOT + "/node_modules/@playwright/test");
-const OUT = path.join(ROOT, "artifacts", "parent");
+const OUT = path.join(ROOT, "artifacts", "evidence", "v1.1", "manual", process.env.NEON_DIFFICULTY || "normal");
 const mode = process.argv[2] || "source";
 const target = require("node:url").pathToFileURL(
   path.join(

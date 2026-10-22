@@ -1,0 +1,90 @@
+
+Running 3 tests using 1 worker
+
+  ✘  1 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles decorations twice while driving without nitro (11.3s)
+  ✘  2 tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles sound twice while driving without nitro (11.2s)
+  ✓  3 tests/e2e/native-settings.spec.cjs:51:3 › source: keyup on a setting still clears gameplay keys held before focus changed (1.7s)
+
+
+  1) tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles decorations twice while driving without nitro
+
+    Error: expect(locator).toBeChecked({ checked: false }) failed
+
+    Locator:  locator('#decorations')
+    Expected: unchecked
+    Received: checked
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toBeChecked" locator('#decorations') with timeout 10000ms
+      - waiting for locator('#decorations')
+        24 × locator resolved to <input checked type="checkbox" id="decorations"/>
+           - unexpected value "checked"
+
+
+      38 |         await expect(page.locator('[data-input="nitro"]')).toHaveAttribute('aria-pressed', 'false');
+      39 |         await page.keyboard.up('Space');
+    > 40 |         await expect(checkbox).toBeChecked({ checked });
+         |                                ^
+      41 |         await page.clock.runFor(64);
+      42 |         await expect(checkbox).toBeFocused();
+      43 |         await expect(page.locator('#phase')).toHaveText('MENGEMUDI');
+        at /root/projects/neon-drift/.worktrees/v1.1/tests/e2e/native-settings.spec.cjs:40:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/native-settings-source-nat-3f085-while-driving-without-nitro/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/native-settings-source-nat-3f085-while-driving-without-nitro/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/native-settings-source-nat-3f085-while-driving-without-nitro/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/native-settings-source-nat-3f085-while-driving-without-nitro/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles sound twice while driving without nitro
+
+    Error: expect(locator).toBeChecked() failed
+
+    Locator:  locator('#sound')
+    Expected: checked
+    Received: unchecked
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toBeChecked" locator('#sound') with timeout 10000ms
+      - waiting for locator('#sound')
+        24 × locator resolved to <input id="sound" type="checkbox"/>
+           - unexpected value "unchecked"
+
+
+      38 |         await expect(page.locator('[data-input="nitro"]')).toHaveAttribute('aria-pressed', 'false');
+      39 |         await page.keyboard.up('Space');
+    > 40 |         await expect(checkbox).toBeChecked({ checked });
+         |                                ^
+      41 |         await page.clock.runFor(64);
+      42 |         await expect(checkbox).toBeFocused();
+      43 |         await expect(page.locator('#phase')).toHaveText('MENGEMUDI');
+        at /root/projects/neon-drift/.worktrees/v1.1/tests/e2e/native-settings.spec.cjs:40:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/native-settings-source-nat-cdb43-while-driving-without-nitro/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/native-settings-source-nat-cdb43-while-driving-without-nitro/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/native-settings-source-nat-cdb43-while-driving-without-nitro/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/native-settings-source-nat-cdb43-while-driving-without-nitro/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles decorations twice while driving without nitro
+    tests/e2e/native-settings.spec.cjs:24:5 › source: native Space toggles sound twice while driving without nitro
+  1 passed (27.2s)
