@@ -2,7 +2,13 @@
 
 **v1.0.0 · Kejar malam. Bukan tabrakan.**
 
-Rear-camera pseudo-3D endless traffic arcade, implemented with exact-model `gpt-6-astra` and independently exercised by the parent. No runtime dependencies, accounts, network assets, fonts, analytics, or sound. **Local release only; not published or deployed.**
+Rear-camera pseudo-3D endless traffic arcade, implemented with exact-model `gpt-6-astra` and independently exercised by the parent. No runtime dependencies, accounts, network assets, fonts, analytics, or sound.
+
+**Play live:** https://aichrisz.github.io/neon-drift/
+
+**Source:** https://github.com/aichrisz/neon-drift
+
+Published to GitHub Pages after Abel explicitly requested push/deployment. Tag `v1.0.0` remains the original verified game source; publication documentation is on `main`.
 
 ## Play
 
