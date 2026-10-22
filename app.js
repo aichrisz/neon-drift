@@ -3,18 +3,22 @@
   const $ = (id) => document.getElementById(id),
     primary = $("primary");
   try {
-    const engine = Neon.Engine.create({
+    let engine = Neon.Engine.create({
         seed: crypto.getRandomValues(new Uint32Array(1))[0],
-      }),
-      renderer = Neon.Renderer.create($("road"));
+      });
+    const renderer = Neon.Renderer.create($("road"));
+    const audio = Neon.Audio.create({ onStatus(status) {
+      $("sound-status").textContent = { muted: "Suara mati", pending: "Suara menunggu", on: "Suara aktif", paused: "Suara dijeda", unavailable: "Suara tidak tersedia" }[status];
+    }});
     let storage;
     try {
       storage = localStorage;
     } catch {
       storage = null;
     }
-    const records = Neon.Records.open(storage),
-      keys = new Set(),
+    const profiles = { normal: Neon.Records.open(storage), hard: Neon.Records.open(storage, {mode: "hard"}) };
+    let records = profiles.normal, eventId = 0;
+    const keys = new Set(),
       pointers = new Map();
     const buttons = [...document.querySelectorAll("[data-input]")];
     const mapping = {
@@ -57,6 +61,19 @@
       $("score").textContent = s.score;
       $("speed").textContent = Math.round(s.speed * 3.6);
       $("near").textContent = s.nearMisses;
+      $("mode-label").textContent = s.mode === "hard" ? "Hard" : "Normal";
+      $("mode").disabled = s.phase === "running" || s.phase === "paused";
+      $("combo").textContent = `COMBO ${s.combo} · ×${s.multiplier}`;
+      $("combo-time").value = s.comboRemaining;
+      const event = s.lastNearMiss;
+      if (event && event.id > eventId) {
+        eventId = event.id;
+        $("near-event").textContent = `NEAR MISS · +${Number(event.nitroAdded.toFixed(1))} NITRO`;
+      }
+      const feedback = event && s.elapsed - event.elapsed < 2;
+      $("near-event").hidden = !feedback;
+      $("nitro").classList.toggle("recharged", Boolean(feedback));
+      audio.update(s);
       $("nitro").value = s.nitro;
       $("nitro-text").textContent = Math.round(s.nitro) + "%";
       $("phase").textContent = {
@@ -106,6 +123,7 @@
           $("final-distance").textContent = Math.floor(s.distance) + " m";
           $("final-score").textContent = s.score;
           $("final-near").textContent = s.nearMisses;
+          $("panel-kicker").textContent = `${s.mode === "hard" ? "Hard" : "Normal"} · BEST COMBO ${s.bestCombo}`;
         }
         panel("results");
       }
@@ -130,7 +148,14 @@
       clear();
       if (engine.snapshot().phase === "paused") engine.resume();
       else {
+        if (engine.snapshot().mode !== $("mode").value) {
+          engine = Neon.Engine.create({seed: crypto.getRandomValues(new Uint32Array(1))[0], mode: $("mode").value});
+        }
+        records = profiles[$("mode").value];
         engine.start();
+        eventId = 0;
+        $("near-event").textContent = "";
+        audio.resetRun();
         finished = false;
         $("save-status").textContent = records.readable
           ? "Rekor tersimpan hanya di browser ini."
@@ -138,10 +163,17 @@
       }
       panel("running");
       render();
+      void audio.activate();
       $("pause").focus({ preventScroll: true });
       run();
     });
     $("pause").addEventListener("click", pause);
+    $("sound").addEventListener("change", () => { void audio.setEnabled($("sound").checked); });
+    $("mode").addEventListener("change", () => {
+      if (!["ready", "results"].includes(engine.snapshot().phase)) return;
+      records = profiles[$("mode").value];
+      $("record").textContent = records.profile().bestScore;
+    });
     document.addEventListener("keydown", (e) => {
       if (engine.snapshot().phase !== "running") return;
       if (e.code === "KeyP" || e.code === "Escape") {
@@ -149,6 +181,8 @@
         pause();
         return;
       }
+      // Space on native settings must toggle them, not be stolen by driving.
+      if (["INPUT", "SELECT"].includes(e.target.tagName)) return;
       if (mapping[e.code]) {
         e.preventDefault();
         keys.add(e.code);
@@ -159,7 +193,12 @@
       if (mapping[e.code]) {
         keys.delete(e.code);
         input();
-        if (engine.snapshot().phase === "running") e.preventDefault();
+        // Release held driving keys even if focus moved to a setting. Native
+        // checkbox Space activation occurs on keyup, so preserve its default.
+        if (
+          engine.snapshot().phase === "running" &&
+          !["INPUT", "SELECT"].includes(e.target.tagName)
+        ) e.preventDefault();
       }
     });
     for (const b of buttons) {
