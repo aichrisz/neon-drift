@@ -54,3 +54,39 @@ test('sustained mixed-speed traversal: integrated gap, shared wave speed, popula
  }
 });
 module.exports={drive};
+
+function nearDrive(e, until, observe=()=>{}) {
+ for(let i=0;i<until*120;i++){
+  const s=e.snapshot();assert.equal(s.phase,'running');
+  const next=s.traffic.filter(c=>c.z>=-(4.4+c.length)/2-.1).sort((a,b)=>a.z-b.z)[0];
+  const group=s.traffic.filter(c=>c.wave===next.wave);
+  const targets=group.flatMap(c=>[-1,1].map(sign=>c.x+sign*((.32+c.width)/2+.07)))
+   .filter(x=>Math.abs(x)<=1&&group.every(c=>Math.abs(x-c.x)>(.32+c.width)/2+.04));
+  const target=targets.sort((a,b)=>Math.abs(a-s.playerX)-Math.abs(b-s.playerX))[0];
+  e.setInput({left:s.playerX>target+.007,right:s.playerX<target-.007});e.step(1/120);observe(e.snapshot(),s);
+ }
+}
+test('actual near passes: incremental combo, capped nitro, immutable events, expiry/pause/replay',()=>{
+ for(const mode of ['normal','hard']){
+  const e=Engine.create({seed:7,mode});e.start();let events=[],last=0,total=0;
+  nearDrive(e,60,(s,prev)=>{
+   assert.equal(s.score,Math.floor(s.distance*2)+total+(s.lastNearMiss?.id>last?s.lastNearMiss.bonus:0));
+   if(s.lastNearMiss?.id>last){
+    const ev=s.lastNearMiss;assert.equal(ev.id,++last);assert(Object.isFrozen(ev));
+    assert.notEqual(ev,e.snapshot().lastNearMiss);
+    assert.equal(ev.combo,events.length+1);assert.equal(ev.multiplier,Math.min(4,ev.combo));
+    assert.equal(ev.bonus,150*Math.min(4,ev.combo));total+=ev.bonus;
+    assert.equal(ev.nitroAdded,Math.min(16,100-prev.nitro));
+    assert.equal(s.nitro,Math.min(100,prev.nitro+16));
+    assert(s.traffic.some(c=>c.passed&&c.z<-(4.4+c.length)/2));events.push(ev);
+   }
+   assert.equal(s.nearMissBonus,total);assert.equal(s.nearMisses,last);
+  });
+  assert(events.length>=4);assert.equal(events[0].bonus,150);assert.equal(events[1].bonus,300);
+  assert(events.some(ev=>ev.nitroAdded===0));assert.equal(e.snapshot().bestCombo,last);
+  e.pause();const paused=e.snapshot();e.step(100);assert.deepEqual(e.snapshot(),paused);e.resume();
+  e.setInput({brake:true});for(let i=0;i<1100;i++)e.step(1/120);
+  assert.equal(e.snapshot().phase,'running');assert.equal(e.snapshot().combo,0);assert.equal(e.snapshot().multiplier,1);assert.equal(e.snapshot().comboRemaining,0);
+  e.start();const reset=e.snapshot();assert.equal(reset.mode,mode);assert.equal(reset.combo,0);assert.equal(reset.bestCombo,0);assert.equal(reset.lastNearMiss,null);assert.equal(reset.nearMissBonus,0);
+ }
+});

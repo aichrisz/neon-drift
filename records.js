@@ -46,11 +46,13 @@
     }
     return clean;
   }
-  function open(storage) {
+  function open(storage, { mode = "normal" } = {}) {
+    if (mode !== "normal" && mode !== "hard") throw new TypeError("invalid mode");
+    const key = KEY + (mode === "hard" ? ".hard" : "");
     let current = empty(),
       readable = false;
     try {
-      current = parse(storage.getItem(KEY));
+      current = parse(storage.getItem(key));
       readable = true;
     } catch {
       /* Session-only remains playable. */
@@ -79,7 +81,7 @@
         };
         let saved = false;
         try {
-          storage.setItem(KEY, JSON.stringify(current));
+          storage.setItem(key, JSON.stringify(current));
           saved = true;
         } catch {
           /* Read success never implies write success. */

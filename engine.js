@@ -121,6 +121,12 @@
         score: 0,
         nitro: CONFIG.initialNitro,
         nearMisses: 0,
+        combo: 0,
+        multiplier: 1,
+        comboRemaining: 0,
+        bestCombo: 0,
+        nearMissBonus: 0,
+        lastNearMiss: null,
         playerX: 0,
         boosting: false,
         traffic: [],
@@ -202,6 +208,12 @@
         state.speed += (speed1 - state.speed) * fraction;
         state.distance += travel * fraction;
         state.elapsed += dt * fraction;
+        state.comboRemaining = state.lastNearMiss
+          ? Math.max(0, 8 - (state.elapsed - state.lastNearMiss.elapsed)) : 0;
+        if (state.comboRemaining === 0) {
+          state.combo = 0;
+          state.multiplier = 1;
+        }
         state.nitro = clamp(
           state.nitro - (boosting ? CONFIG.nitroDrain * dt * fraction : 0),
           0,
@@ -234,7 +246,16 @@
               car.clearance <= halfWidth + .16
             ) {
               state.nearMisses++;
-              state.nitro = Math.min(100, state.nitro + CONFIG.nitroRecharge);
+              const nitroAdded = Math.min(CONFIG.nitroRecharge, 100 - state.nitro);
+              state.nitro += nitroAdded;
+              state.combo++;
+              state.multiplier = Math.min(4, state.combo);
+              state.comboRemaining = 8;
+              state.bestCombo = Math.max(state.bestCombo, state.combo);
+              const bonus = CONFIG.nearMissPoints * state.multiplier;
+              state.nearMissBonus += bonus;
+              state.lastNearMiss = { id: state.nearMisses, elapsed: state.elapsed,
+                nitroAdded, bonus, combo: state.combo, multiplier: state.multiplier };
             }
           }
         }
@@ -257,7 +278,7 @@
           spawn(furthest + rules.spacing - (rules.spacing - rules.minGap) * Math.min(1, state.elapsed / rules.rampSeconds));
         state.score =
           Math.floor(state.distance * CONFIG.distancePoints) +
-          state.nearMisses * CONFIG.nearMissPoints;
+          state.nearMissBonus;
       }
     }
     return Object.freeze({
@@ -289,6 +310,7 @@
       snapshot() {
         return Object.freeze({
           ...state,
+          lastNearMiss: state.lastNearMiss && Object.freeze({ ...state.lastNearMiss }),
           traffic: Object.freeze(state.traffic.map((c) => Object.freeze({ ...c }))),
           crash: state.crash && Object.freeze({ ...state.crash }),
         });

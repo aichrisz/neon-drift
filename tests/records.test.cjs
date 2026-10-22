@@ -1,6 +1,20 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { Records } = require("../records.js");
+test('Normal legacy records preserved; Hard isolated and validated',()=>{
+ const old=JSON.stringify({version:1,bestScore:123,bestDistance:65,bestNearMisses:1,runs:2});
+ const data=new Map([[Records.KEY,old]]);const storage={getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v)};
+ assert.throws(()=>Records.open(storage,{mode:'bogus'}));
+ const normal=Records.open(storage),hard=Records.open(storage,{mode:'hard'});
+ assert.equal(normal.profile().bestScore,123);assert.equal(hard.profile().bestScore,0);
+ assert(hard.finish({score:456,distance:100,nearMisses:3}).saved);
+ assert.equal(data.get(Records.KEY),old);assert.equal(JSON.parse(data.get(Records.KEY+'.hard')).bestScore,456);
+ assert.equal(Records.open(storage,{mode:'normal'}).profile().bestScore,123);
+ for(const mode of ['normal','hard']){
+  const denied=Records.open({getItem(){throw Error('denied')},setItem(){throw Error('quota')}},{mode});
+  assert.equal(denied.readable,false);assert.equal(denied.finish({score:5}).saved,false);
+ }
+});
 test("corrupt, prototype-like, oversize and bounded whitelisted profiles", () => {
   for (const raw of [
     "",
