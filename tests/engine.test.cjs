@@ -8,7 +8,9 @@ test("state/motion tracer and detached snapshots", () => {
   e.step(1);
   assert(e.snapshot().distance > 0);
   const a = e.snapshot();
-  a.traffic.length = 0;
+  assert(Object.isFrozen(a));
+  assert(Object.isFrozen(a.traffic));
+  assert(Object.isFrozen(a.traffic[0]));
   assert(e.snapshot().traffic.length > 0);
   e.pause();
   const p = e.snapshot();
@@ -24,7 +26,7 @@ test("immutable config, fairness inequality, bounded steering and validation", (
   assert(Object.isFrozen(CONFIG));
   const reaction = 2 / CONFIG.steerRate;
   const required =
-    (CONFIG.maxSpeed - CONFIG.trafficSpeed) * reaction + CONFIG.contactLength;
+    (CONFIG.maxSpeed - 16) * reaction + 2 * 5.2;
   assert(CONFIG.waveSpacing > required);
   assert(CONFIG.spawnZ > required);
   const e = Engine.create({ seed: 42 });

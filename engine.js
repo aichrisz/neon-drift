@@ -36,6 +36,15 @@
     nearMissPoints: 150,
     viewDistance: 440,
   });
+  const MODE_CONFIG = Object.freeze({
+    normal: Object.freeze({ startSpeed: 36, cruiseSpeed: 46, maxCruiseSpeed: 58, difficultyRate: .12, spacing: 140, minGap: 125, rampSeconds: 120 }),
+    hard: Object.freeze({ startSpeed: 42, cruiseSpeed: 52, maxCruiseSpeed: 66, difficultyRate: .20, spacing: 125, minGap: 108, rampSeconds: 90 }),
+  });
+  const VEHICLES = Object.freeze({
+    compact: Object.freeze({ width: .28, length: 3.8, speed: 22 }),
+    sedan: Object.freeze({ width: .34, length: 4.4, speed: 20 }),
+    van: Object.freeze({ width: .46, length: 6, speed: 16 }),
+  });
   const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
   const neutral = () => ({
     left: false,
@@ -45,12 +54,12 @@
   });
   // Slab intersection of the relative swept segment with the Minkowski car box.
   // Includes exact edge contact; handles movement on BOTH axes, not just depth.
-  function sweepContact(x0, z0, x1, z1) {
+  function sweepContact(x0, z0, x1, z1, halfWidth = CONFIG.contactWidth, halfLength = CONFIG.contactLength) {
     let enter = 0,
       exit = 1;
     for (const [a, b, radius] of [
-      [x0, x1, CONFIG.contactWidth],
-      [z0, z1, CONFIG.contactLength],
+      [x0, x1, halfWidth],
+      [z0, z1, halfLength],
     ]) {
       const delta = b - a;
       if (Math.abs(delta) < 1e-14) {
@@ -65,7 +74,9 @@
     }
     return enter;
   }
-  function create({ seed = 1 } = {}) {
+  function create({ seed = 1, mode = "normal" } = {}) {
+    if (!Object.hasOwn(MODE_CONFIG, mode)) throw new TypeError("invalid mode");
+    const rules = MODE_CONFIG[mode];
     if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff)
       throw new TypeError("seed must be uint32");
     let randomState, state, input, wave, nextId;
@@ -82,10 +93,13 @@
       // without consuming RNG calls. This closes permanent inter-lane corridors
       // while each original open lane center retains ample collision clearance.
       const offset = wave <= 2 ? 0 : (((wave - 3) % 3) - 1) * CONFIG.trafficOffset;
+      const type = Object.keys(VEHICLES)[Math.floor(random() * 3)];
       for (let i = 0; i < count; i++)
         state.traffic.push({
           id: ++nextId,
           wave,
+          type,
+          ...VEHICLES[type],
           x: lanes[i] + offset,
           z,
           passed: false,
@@ -100,9 +114,10 @@
       nextId = 0;
       state = {
         phase,
+        mode,
         elapsed: 0,
         distance: 0,
-        speed: CONFIG.startSpeed,
+        speed: rules.startSpeed,
         score: 0,
         nitro: CONFIG.initialNitro,
         nearMisses: 0,
@@ -112,7 +127,7 @@
         crash: null,
       };
       spawn(CONFIG.spawnZ);
-      spawn(CONFIG.spawnZ + CONFIG.waveSpacing);
+      spawn(CONFIG.spawnZ + rules.spacing);
     }
     reset("ready");
     function step(seconds) {
@@ -134,8 +149,8 @@
           : boosting
             ? CONFIG.maxSpeed
             : Math.min(
-                CONFIG.maxCruiseSpeed,
-                CONFIG.cruiseSpeed + state.elapsed * CONFIG.difficultyRate,
+                rules.maxCruiseSpeed,
+                rules.cruiseSpeed + state.elapsed * rules.difficultyRate,
               );
         const rate =
           target < state.speed ? CONFIG.deceleration : CONFIG.acceleration;
@@ -145,7 +160,21 @@
         // this very segment: time, distance, nitro and every car stop together.
         const meanSpeed = (state.speed + speed1) / 2;
         const travel = meanSpeed * dt;
-        const relativeTravel = travel - CONFIG.trafficSpeed * dt;
+        // Higher-z traffic leads lower-z traffic in world coordinates. Integrate
+        // leaders first and cap follower velocity by available gap / dt. This
+        // preserves the run's floor even for mixed types, without teleporting.
+        const waves = [...new Set(state.traffic.map(c => c.wave))]
+          .map(w => state.traffic.filter(c => c.wave === w))
+          .sort((a, b) => b[0].z - a[0].z);
+        let leader = null;
+        for (const group of waves) {
+          const car = group[0];
+          const speed = Math.min(VEHICLES[car.type].speed, leader
+            ? leader.speed + Math.max(0, car.z < leader.z ? leader.z - car.z - rules.minGap : 0) / dt
+            : Infinity);
+          for (const member of group) member.speed = speed;
+          leader = car;
+        }
         const x0 = state.playerX;
         const x1 = clamp(
           x0 +
@@ -160,7 +189,9 @@
             x0 - car.x,
             car.z,
             x1 - car.x,
-            car.z - relativeTravel,
+            car.z - travel + car.speed * dt,
+            (CONFIG.playerWidth + car.width) / 2,
+            (CONFIG.playerLength + car.length) / 2,
           );
           if (contact !== null && (hit === null || contact < fraction)) {
             fraction = contact;
@@ -180,13 +211,15 @@
         state.boosting = boosting && state.nitro > 0 && !hit;
         for (const car of state.traffic) {
           const z0 = car.z;
-          car.z -= relativeTravel * fraction;
-          if (z0 >= -CONFIG.contactLength && car.z <= CONFIG.contactLength) {
+          const halfLength = (CONFIG.playerLength + car.length) / 2;
+          const halfWidth = (CONFIG.playerWidth + car.width) / 2;
+          car.z -= (travel - car.speed * dt) * fraction;
+          if (z0 >= -halfLength && car.z <= halfLength) {
             const depth = z0 - car.z;
             const begin =
-              depth > 0 ? clamp((z0 - CONFIG.contactLength) / depth, 0, 1) : 0;
+              depth > 0 ? clamp((z0 - halfLength) / depth, 0, 1) : 0;
             const end =
-              depth > 0 ? clamp((z0 + CONFIG.contactLength) / depth, 0, 1) : 1;
+              depth > 0 ? clamp((z0 + halfLength) / depth, 0, 1) : 1;
             const a = x0 + (state.playerX - x0) * begin - car.x;
             const b = x0 + (state.playerX - x0) * end - car.x;
             car.clearance = Math.min(
@@ -194,11 +227,11 @@
               a * b <= 0 ? 0 : Math.min(Math.abs(a), Math.abs(b)),
             );
           }
-          if (!hit && !car.passed && car.z < -CONFIG.contactLength) {
+          if (!hit && !car.passed && car.z < -halfLength) {
             car.passed = true;
             if (
-              car.clearance > CONFIG.contactWidth &&
-              car.clearance <= CONFIG.nearWidth
+              car.clearance > halfWidth &&
+              car.clearance <= halfWidth + .16
             ) {
               state.nearMisses++;
               state.nitro = Math.min(100, state.nitro + CONFIG.nitroRecharge);
@@ -221,7 +254,7 @@
           furthest <= CONFIG.spawnZ &&
           state.traffic.length <= CONFIG.maxTraffic - 2
         )
-          spawn(furthest + CONFIG.waveSpacing);
+          spawn(furthest + rules.spacing - (rules.spacing - rules.minGap) * Math.min(1, state.elapsed / rules.rampSeconds));
         state.score =
           Math.floor(state.distance * CONFIG.distancePoints) +
           state.nearMisses * CONFIG.nearMissPoints;
@@ -254,17 +287,19 @@
         }
       },
       snapshot() {
-        return {
+        return Object.freeze({
           ...state,
-          traffic: state.traffic.map((c) => ({ ...c })),
-          crash: state.crash && { ...state.crash },
-        };
+          traffic: Object.freeze(state.traffic.map((c) => Object.freeze({ ...c }))),
+          crash: state.crash && Object.freeze({ ...state.crash }),
+        });
       },
     });
   }
   return Object.freeze({
     Engine: Object.freeze({ create }),
     CONFIG,
+    MODE_CONFIG,
+    VEHICLES,
     sweepContact,
   });
 });

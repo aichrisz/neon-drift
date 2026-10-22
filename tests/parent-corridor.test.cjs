@@ -3,10 +3,11 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { Engine } = require("../engine.js");
 test("all stationary lateral positions eventually meet real traffic across deterministic seeds", () => {
+  for (const mode of ['normal','hard'])
   for (let seed = 1; seed <= 5; seed++)
     for (let j = -20; j <= 20; j++) {
       const x = j / 20,
-        e = Engine.create({ seed });
+        e = Engine.create({ seed, mode });
       e.start();
       e.setInput({ left: x < 0, right: x > 0 });
       let move = Math.abs(x) / 1.6;
