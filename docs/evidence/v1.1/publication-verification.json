@@ -1,0 +1,231 @@
+{
+  "date": "2026-10-22",
+  "authorization": "Deploy aja biasain",
+  "release_commit": "dd0c919cf9e41c18b7d5e4ad109a160807917c24",
+  "release_tag": "v1.1.0",
+  "deployment_commit": "5ff5fe6948119dbf963e9f51b858eb7252ca49d9",
+  "rollback_commit": "1521118cc6ce3fec52c26bdb47d9d5e15c96ff9f",
+  "live": {
+    "url": "https://aichrisz.github.io/neon-drift/",
+    "deployment_commit": "5ff5fe6948119dbf963e9f51b858eb7252ca49d9",
+    "status": "built",
+    "https_enforced": true,
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 8052,
+        "sha256": "b9b1d5c79163c66d28cd658944c7ba4d685faf05ed855f29529fba3c6e49447a",
+        "matches_build": true
+      },
+      {
+        "file": "styles.css",
+        "bytes": 12762,
+        "sha256": "772634e3d4268b84cd84df96063fbda5b4a68c01d9ebab1503aaf1974ec4a8fb",
+        "matches_build": true
+      },
+      {
+        "file": "engine.js",
+        "bytes": 11960,
+        "sha256": "f286b4229c6b6986b00fdb2a1dc54721fbfc3e8fb2aecc5bd4eb0aacbba14840",
+        "matches_build": true
+      },
+      {
+        "file": "records.js",
+        "bytes": 2719,
+        "sha256": "447511c2160aace8666698b48d0bfd9a94c79fe9d1d88c1241b18ec5b0b2dfee",
+        "matches_build": true
+      },
+      {
+        "file": "renderer.js",
+        "bytes": 9659,
+        "sha256": "b92232463f83d299051d7f6dcca6eb49a9944b8c276fc276239e7daa2de119d6",
+        "matches_build": true
+      },
+      {
+        "file": "audio.js",
+        "bytes": 4702,
+        "sha256": "ab917147c4f148a852e37f4aafc557594eea1b3e3cdd7fc71ef3c5cdfb003b55",
+        "matches_build": true
+      },
+      {
+        "file": "app.js",
+        "bytes": 8913,
+        "sha256": "631225fe868dcc9a1878930d727b4176e7ebede8717be9efe8280145850f78d2",
+        "matches_build": true
+      }
+    ]
+  },
+  "native_lifecycle": [
+    {
+      "difficulty": "normal",
+      "touch_emulated": true,
+      "errors": [],
+      "animation_loop": {
+        "ticks": 190,
+        "max": 1,
+        "pending": 0
+      },
+      "network_requests": 14
+    },
+    {
+      "difficulty": "normal",
+      "touch_emulated": false,
+      "errors": [],
+      "animation_loop": {
+        "ticks": 169,
+        "max": 1,
+        "pending": 0
+      },
+      "network_requests": 14
+    },
+    {
+      "difficulty": "hard",
+      "touch_emulated": true,
+      "errors": [],
+      "animation_loop": {
+        "ticks": 169,
+        "max": 1,
+        "pending": 0
+      },
+      "network_requests": 14
+    },
+    {
+      "difficulty": "hard",
+      "touch_emulated": false,
+      "errors": [],
+      "animation_loop": {
+        "ticks": 148,
+        "max": 1,
+        "pending": 0
+      },
+      "network_requests": 14
+    }
+  ],
+  "native_near_miss_routes": [
+    {
+      "variant": "public",
+      "mode": "normal",
+      "seed": 1,
+      "events": [
+        {
+          "near": 1,
+          "nitro": 71,
+          "score": 1258,
+          "hud": "NEAR MISS \u00b7 +16 NITRO",
+          "combo": "COMBO 1 \u00b7 \u00d71"
+        },
+        {
+          "near": 2,
+          "nitro": 87,
+          "score": 2040,
+          "hud": "NEAR MISS \u00b7 +16 NITRO",
+          "combo": "COMBO 2 \u00b7 \u00d72"
+        },
+        {
+          "near": 3,
+          "nitro": 100,
+          "score": 2964,
+          "hud": "NEAR MISS \u00b7 +13 NITRO",
+          "combo": "COMBO 3 \u00b7 \u00d73"
+        },
+        {
+          "near": 4,
+          "nitro": 100,
+          "score": 4146,
+          "hud": "NEAR MISS \u00b7 +0 NITRO",
+          "combo": "COMBO 4 \u00b7 \u00d74"
+        }
+      ],
+      "layout": {
+        "overflow": false,
+        "boxes": [
+          {
+            "x": 68,
+            "y": 157,
+            "right": 1298,
+            "bottom": 647,
+            "w": 1230,
+            "h": 490
+          },
+          {
+            "x": 68,
+            "y": 647,
+            "right": 1298,
+            "bottom": 723,
+            "w": 1230,
+            "h": 76
+          }
+        ],
+        "w": 1366,
+        "h": 768
+      },
+      "errors": [],
+      "requests": 7
+    },
+    {
+      "variant": "public",
+      "mode": "hard",
+      "seed": 1,
+      "events": [
+        {
+          "near": 1,
+          "nitro": 71,
+          "score": 1168,
+          "hud": "NEAR MISS \u00b7 +16 NITRO",
+          "combo": "COMBO 1 \u00b7 \u00d71"
+        },
+        {
+          "near": 2,
+          "nitro": 87,
+          "score": 1865,
+          "hud": "NEAR MISS \u00b7 +16 NITRO",
+          "combo": "COMBO 2 \u00b7 \u00d72"
+        },
+        {
+          "near": 3,
+          "nitro": 100,
+          "score": 2705,
+          "hud": "NEAR MISS \u00b7 +13 NITRO",
+          "combo": "COMBO 3 \u00b7 \u00d73"
+        },
+        {
+          "near": 4,
+          "nitro": 100,
+          "score": 3768,
+          "hud": "NEAR MISS \u00b7 +0 NITRO",
+          "combo": "COMBO 4 \u00b7 \u00d74"
+        }
+      ],
+      "layout": {
+        "overflow": false,
+        "boxes": [
+          {
+            "x": 68,
+            "y": 157,
+            "right": 1298,
+            "bottom": 647,
+            "w": 1230,
+            "h": 490
+          },
+          {
+            "x": 68,
+            "y": 647,
+            "right": 1298,
+            "bottom": 723,
+            "w": 1230,
+            "h": 76
+          }
+        ],
+        "w": 1366,
+        "h": 768
+      },
+      "errors": [],
+      "requests": 7
+    }
+  ],
+  "harness_correction": "The first public smoke run retained focus on the sound checkbox before Space; corrected the harness to focus the driving surface before driving keys. No runtime change and no weakened assertion.",
+  "limitations": [
+    "Chromium touch emulation, not a physical mobile device.",
+    "No human listening certification or Safari/Firefox/manual screen reader certification."
+  ]
+}

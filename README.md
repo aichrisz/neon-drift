@@ -6,12 +6,12 @@ Rear-camera pseudo-3D endless traffic arcade. Zero runtime dependencies, account
 
 ## Delivery status
 
-This is the verified v1.1.0 local delivery on `feat/neon-drift-v1.1`. Parent reran26 unit +31 browser +13 edge cases and eight delivery/mode/touch lifecycle runs, inspected actual screenshots, and obtained a fresh exact-Astra read-only **ship** review. Online audit returned0 findings. See `docs/v1.1-parent-acceptance.md` for exact commands, independent oracles and the nonblocking audio-label note. This work does not publish anything.
+**v1.1.0 is live on GitHub Pages.** Abel authorized publication with “Deploy aja biasain”. Release/tag source `dd0c919`; Pages runtime `5ff5fe6`. Seven public runtime responses byte-match the build. Normal/Hard desktop and touch-emulated public lifecycle tests passed, as did native four-pass/×4 combo routes in both modes, without app/HTTP/request errors. Fresh publication preflight26 unit +31 browser and online audit0; earlier full local gate additionally13 edge/eight lifecycle variants and fresh exact-Astra ship review. See `docs/deployment.md` for provenance/rollback and `docs/v1.1-parent-acceptance.md` for local evidence and the nonblocking audio-label note.
 
-Historical v1.0 live game: https://aichrisz.github.io/neon-drift/
+Play v1.1: https://aichrisz.github.io/neon-drift/
 Source repository: https://github.com/aichrisz/neon-drift
 
-The existing live v1.0 and tag `v1.0.0` are unchanged. Historical v1.0 publication/acceptance evidence is not a claim that v1.1 has been released or independently approved.
+Immutable `v1.1.0` points to release source `dd0c919`; the original73-file ZIP describes that tag, not later publication-only documentation. `v1.0.0` and prior Pages history are preserved. The old Pages commit `1521118` is a rollback anchor, not the current live version.
 
 ## Play
 
@@ -104,4 +104,4 @@ Real OfflineAudioContext waveform/RMS tests and native browser-context instrumen
 
 `docs/v1.1-implementation-evidence.md` records actual per-task RED/GREEN commands, harness corrections, counts and handoff status. Raw v1.1 logs/captures/reports are in `artifacts/evidence/v1.1/`; selected raw checkpoints are retained in `docs/evidence/v1.1/`. `docs/tdd-evidence.md` preserves historical v1.0 evidence separately.
 
-Native controls, focus, text HUD and labeled meters are tested. Five DPR2 viewports include320×568,390×844,768×1024,1366×768,1440×900 with all-phase axe and non-overlap checks. Canvas driving still requires visual reaction. Chromium automation/emulated touch is not physical-device, Safari/Firefox, screen-reader usability or nonvisual-equivalence certification. Captures are actual browser output; parent visual inspection and independent local acceptance are now recorded in `docs/v1.1-parent-acceptance.md`. No physical/human usability certification or v1.1 publication is claimed.
+Native controls, focus, text HUD and labeled meters are tested. Five DPR2 viewports include320×568,390×844,768×1024,1366×768,1440×900 with all-phase axe and non-overlap checks. Canvas driving still requires visual reaction. Chromium automation/emulated touch is not physical-device, Safari/Firefox, screen-reader usability or nonvisual-equivalence certification. Captures are actual browser output; parent visual inspection and independent local acceptance are now recorded in `docs/v1.1-parent-acceptance.md`. No physical/human usability certification is claimed. v1.1 public deployment and ordinary-input live checks are separately documented in `docs/deployment.md`.

@@ -1,4 +1,31 @@
-# GitHub Pages deployment — 2026-10-22
+# Neon Drift deployment
+
+## Current v1.1.0 publication — 2026-10-22
+
+- Authorized by Abel: “Deploy aja biasain”. Approved updates to an already-public project normally continue to verified existing-target deployment, not stop at local ZIP delivery.
+- Play: https://aichrisz.github.io/neon-drift/
+- Source: https://github.com/aichrisz/neon-drift
+- Immutable `v1.1.0` source: `dd0c919cf9e41c18b7d5e4ad109a160807917c24`; `main` fast-forwarded before publication-only docs follow-up.
+- Live `gh-pages`: `5ff5fe6948119dbf963e9f51b858eb7252ca49d9`. Latest build built for that exact commit; HTTPS enforced.
+- Previous deployment/rollback anchor: `1521118cc6ce3fec52c26bdb47d9d5e15c96ff9f`. Prior branch history and `v1.0.0` preserved; no force-push, orphan replacement, visibility/domain change or new repository.
+- Seven public runtime bodies exactly match build, including new `audio.js`. Only these seven assets plus `.nojekyll` uploaded; no source ZIP/tests/docs/environment files in Pages.
+
+### Actual publication verification
+
+- Fresh source preflight: build/export,26 unit +31 browser tests, online audit0, tracked source/history scan clean. After fast-forward: main build/export/unit, then exact remote source/tag/Pages readback.
+- Public **Normal/Hard × desktop/touch emulation = four lifecycle cases**, using native controls: start, steering/nitro, pause/resume, blur, crash/save/replay, sound opt-in/mute label. Single animation loop, no overflow, no app/HTTP/request errors or requests outside app prefix.
+- Public native near-miss routes in both modes: four near misses and combo×4. Actual nitro rewards+16/+16/+13/+0 reach cap100; no app/network errors.
+- Exact public hashes, commits, native reports and limits: `docs/evidence/v1.1/publication-verification.json`.
+- First smoke attempt retained focus on the sound checkbox before driving Space; corrected the harness to focus driving before keys. Native checkbox Space ownership is correct. No runtime change, no weakened assertion; all four reruns passed.
+
+### Limits / rollback
+
+The73-file offline ZIP remains the immutable `v1.1.0` source, not later publication-only documentation. Chromium touch emulation is not a physical-device/Safari/Firefox/screen-reader or human listening certification. Known low-severity pause audio-label issue is unchanged; local actual-signal tests already established pause/mute/blur silence.
+
+If authorized, rollback via a **new commit** restoring the previous six runtime assets and removing `audio.js`; push normal `gh-pages`, then reverify exact live bytes. Never force-push/reset public history or move release tags.
+
+## Historical v1.0.0 publication
+
 
 Publication was explicitly authorized by Abel: “Coba push dan deploy”. This supersedes the earlier local-only delivery scope for this project.
 
