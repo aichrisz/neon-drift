@@ -17,6 +17,19 @@
   });
   const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
   const neutral = () => ({left: false, right: false, brake: false, nitro: false});
+  // Slab intersection of the relative swept segment with the Minkowski car box.
+  // Includes exact edge contact; handles movement on BOTH axes, not just depth.
+  function sweepContact(x0, z0, x1, z1) {
+    let enter = 0, exit = 1;
+    for (const [a, b, radius] of [[x0, x1, CONFIG.contactWidth], [z0, z1, CONFIG.contactLength]]) {
+      const delta = b - a;
+      if (Math.abs(delta) < 1e-14) {if (Math.abs(a) > radius) return null; continue;}
+      const t0 = (-radius - a) / delta, t1 = (radius - a) / delta;
+      enter = Math.max(enter, Math.min(t0, t1)); exit = Math.min(exit, Math.max(t0, t1));
+      if (enter > exit) return null;
+    }
+    return enter;
+  }
   function create({seed = 1} = {}) {
     if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw new TypeError('seed must be uint32');
     let randomState, state, input, wave, nextId;
@@ -44,14 +57,52 @@
       if (state.phase !== 'running') return;
       let remaining = Math.min(seconds, CONFIG.maxDelta);
       while (remaining > 1e-12 && state.phase === 'running') {
-        const dt = Math.min(CONFIG.fixedStep, remaining); remaining -= dt;
-        const target = input.brake ? CONFIG.brakeSpeed : Math.min(CONFIG.maxCruiseSpeed, CONFIG.cruiseSpeed + state.elapsed * CONFIG.difficultyRate);
+        let dt = Math.min(CONFIG.fixedStep, remaining);
+        const boosting = input.nitro && !input.brake && state.nitro > 1e-10;
+        if (boosting) dt = Math.min(dt, state.nitro / CONFIG.nitroDrain);
+        remaining -= dt;
+        const target = input.brake ? CONFIG.brakeSpeed : boosting ? CONFIG.maxSpeed : Math.min(CONFIG.maxCruiseSpeed, CONFIG.cruiseSpeed + state.elapsed * CONFIG.difficultyRate);
         const rate = target < state.speed ? CONFIG.deceleration : CONFIG.acceleration;
-        state.speed += clamp(target - state.speed, -rate * dt, rate * dt);
-        const travel = state.speed * dt;
-        state.playerX = clamp(state.playerX + (Number(input.right) - Number(input.left)) * CONFIG.steerRate * dt, -1, 1);
-        state.distance += travel; state.elapsed += dt;
-        for (const car of state.traffic) car.z -= travel - CONFIG.trafficSpeed * dt;
+        const speed1 = state.speed + clamp(target - state.speed, -rate * dt, rate * dt);
+        // Each bounded step is a constant mean-velocity segment. Contact truncates
+        // this very segment: time, distance, nitro and every car stop together.
+        const meanSpeed = (state.speed + speed1) / 2;
+        const travel = meanSpeed * dt;
+        const relativeTravel = travel - CONFIG.trafficSpeed * dt;
+        const x0 = state.playerX;
+        const x1 = clamp(x0 + (Number(input.right) - Number(input.left)) * CONFIG.steerRate * dt, -1, 1);
+        let fraction = 1, hit = null;
+        for (const car of state.traffic) {
+          const contact = sweepContact(x0 - car.x, car.z, x1 - car.x, car.z - relativeTravel);
+          if (contact !== null && (hit === null || contact < fraction)) {fraction = contact; hit = car;}
+        }
+        state.playerX = x0 + (x1 - x0) * fraction;
+        state.speed += (speed1 - state.speed) * fraction;
+        state.distance += travel * fraction; state.elapsed += dt * fraction;
+        state.nitro = clamp(state.nitro - (boosting ? CONFIG.nitroDrain * dt * fraction : 0), 0, 100);
+        if (state.nitro < 1e-10) state.nitro = 0;
+        state.boosting = boosting && state.nitro > 0 && !hit;
+        for (const car of state.traffic) {
+          const z0 = car.z; car.z -= relativeTravel * fraction;
+          if (z0 >= -CONFIG.contactLength && car.z <= CONFIG.contactLength) {
+            const depth = z0 - car.z;
+            const begin = depth > 0 ? clamp((z0 - CONFIG.contactLength) / depth, 0, 1) : 0;
+            const end = depth > 0 ? clamp((z0 + CONFIG.contactLength) / depth, 0, 1) : 1;
+            const a = x0 + (state.playerX - x0) * begin - car.x;
+            const b = x0 + (state.playerX - x0) * end - car.x;
+            car.clearance = Math.min(car.clearance, a * b <= 0 ? 0 : Math.min(Math.abs(a), Math.abs(b)));
+          }
+          if (!hit && !car.passed && car.z < -CONFIG.contactLength) {
+            car.passed = true;
+            if (car.clearance > CONFIG.contactWidth && car.clearance <= CONFIG.nearWidth) {
+              state.nearMisses++; state.nitro = Math.min(100, state.nitro + CONFIG.nitroRecharge);
+            }
+          }
+        }
+        if (hit) {
+          state.phase = 'results'; input = neutral();
+          state.crash = {id: hit.id, x: state.playerX, z: hit.z, elapsed: state.elapsed};
+        }
         state.traffic = state.traffic.filter(c => c.z > -20);
         const furthest = Math.max(...state.traffic.map(c => c.z));
         if (furthest <= CONFIG.spawnZ && state.traffic.length <= CONFIG.maxTraffic - 2) spawn(furthest + CONFIG.waveSpacing);
@@ -71,5 +122,5 @@
       snapshot() {return {...state, traffic: state.traffic.map(c => ({...c})), crash: state.crash && {...state.crash}};}
     });
   }
-  return Object.freeze({Engine: Object.freeze({create}), CONFIG});
+  return Object.freeze({Engine: Object.freeze({create}), CONFIG, sweepContact});
 });
