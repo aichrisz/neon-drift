@@ -7,6 +7,7 @@ const FILES = Object.freeze([
   "engine.js",
   "records.js",
   "renderer.js",
+  "audio.js",
   "app.js",
 ]);
 // Walk every ancestor with lstat: realpath alone misses dangling symlinks.
