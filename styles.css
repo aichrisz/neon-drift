@@ -641,3 +641,19 @@ footer button {
     scroll-behavior: auto;
   }
 }
+/* Short phones retain driving controls; the compact menu scrolls internally. */
+@media (max-height: 680px) {
+  .shell { min-height: 0; grid-template-rows: 62px minmax(0, 1fr) 32px; }
+  main { grid-template-rows: 62px minmax(0, 1fr) 64px; }
+  .controls { padding: 5px 8px; }
+  .panel { padding: 10px 14px; max-height: calc(100% - 8px); }
+  .panel h2 { font-size: 23px; margin: 5px 0; }
+  .panel p { font-size: 10px; margin-bottom: 6px; line-height: 1.35; }
+  .panel .panel-help { font-size: 8px; margin-top: 5px; line-height: 1.3; }
+  .panel .save-status { margin: 4px 0; font-size: 9px; }
+  .record-line { padding-top: 4px; }
+  .record-line strong { font-size: 16px; }
+  .mode-choice { margin-bottom: 5px; font-size: 11px; }
+  .result-stats { margin: 6px 0; }
+  .primary { min-height: 44px; }
+}

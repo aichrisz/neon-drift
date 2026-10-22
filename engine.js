@@ -129,6 +129,7 @@
         lastNearMiss: null,
         playerX: 0,
         boosting: false,
+        braking: false,
         traffic: [],
         crash: null,
       };
@@ -221,6 +222,7 @@
         );
         if (state.nitro < 1e-10) state.nitro = 0;
         state.boosting = boosting && state.nitro > 0 && !hit;
+        state.braking = input.brake && !hit;
         for (const car of state.traffic) {
           const z0 = car.z;
           const halfLength = (CONFIG.playerLength + car.length) / 2;
@@ -299,6 +301,7 @@
           state.phase = "paused";
           input = neutral();
           state.boosting = false;
+          state.braking = false;
         }
       },
       resume() {
