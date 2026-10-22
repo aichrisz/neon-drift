@@ -19,6 +19,7 @@ The delivery helpers and delivery smoke tests were NOT developed through an obse
 - npm run check: exit0, “Runtime allowlist and JavaScript syntax OK”.
 - npm run build: exit0, “Built 6 runtime files in dist/”.
 - npm run export: exit0, produced artifacts/Neon-Drift.html.
+- npm run package: exit0; artifacts/Neon-Drift-source.zip contained37 tracked files, ZIP integrity and every member's bytes verified by the Python helper.
 - Initial expanded suite full-test.log: 11 units passed, 3 browser delivery tests passed, native tracer failed a wall-clock-sensitive post-retry distance assertion (10 received, expected <10). Test corrected to freeze the browser clock at retry and assert exact zero; production code unchanged.
 - Fresh npm test, final-test.log: exit0; 11 unit tests passed, 0 failed/skipped; 4 browser tests passed (22.9s). Browser cases: source HTTP, dist file URL, standalone file URL offline, and native source-file lifecycle.
 - Standalone offline case observed exactly one document request and no neighbor/external requests; actual steering, distance and pause exercised. Native source tracer exercised start, steering, nitro, pause/freeze/resume, actual collision, save status and replay.
