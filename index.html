@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080f1d" />
+    <meta
+      name="description"
+      content="Neon Drift. Arcade lalu lintas malam, hujan neon, dan satu jalan tanpa akhir. Bisa dimainkan offline."
+    />
+    <title>Neon Drift — Midnight run</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="engine.js" defer></script>
+    <script src="records.js" defer></script>
+    <script src="renderer.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="masthead">
+        <a class="brand" href="#game" aria-label="Neon Drift, ke permainan"
+          ><span class="brand-mark" aria-hidden="true">N<span>↗</span></span
+          ><span>NEON <b>DRIFT</b><small>MIDNIGHT RUN / 01</small></span></a
+        >
+        <div class="masthead-right">
+          <span class="local-tag">LOKAL · OFFLINE</span
+          ><label class="decoration"
+            ><input id="decorations" type="checkbox" checked /> Efek
+            hujan</label
+          >
+        </div>
+      </header>
+      <main id="game" aria-label="Permainan Neon Drift">
+        <h1 class="sr-only">Neon Drift — permainan mengemudi malam</h1>
+        <section class="dashboard" aria-label="Statistik perjalanan">
+          <div>
+            <span class="eyebrow">JARAK <span class="unit">m</span></span
+            ><output id="distance">0</output>
+          </div>
+          <div>
+            <span class="eyebrow">SKOR</span><output id="score">0</output>
+          </div>
+          <div>
+            <span class="eyebrow">LAJU <span class="unit">km/j</span></span
+            ><output id="speed">0</output>
+          </div>
+          <div class="nitro-stat">
+            <label class="eyebrow" for="nitro"
+              >NITRO <span id="nitro-text">55%</span></label
+            ><meter id="nitro" min="0" max="100" value="55">55%</meter
+            ><span class="near-label">NYARIS <output id="near">0</output></span>
+          </div>
+        </section>
+        <section class="stage" aria-label="Jalan raya malam">
+          <canvas
+            id="road"
+            role="img"
+            aria-label="Pandangan belakang mobil di jalan tiga lajur. Hindari mobil di depan; kendali ada di bawah."
+            aria-describedby="visual-note"
+            >Permainan ini memerlukan Canvas dan JavaScript. Gunakan A/D untuk
+            kemudi, S untuk rem, dan Spasi untuk nitro.</canvas
+          >
+          <div class="stage-top">
+            <span id="phase">SIAP</span
+            ><span class="district"
+              >SEKTOR 07 <span aria-hidden="true">↗</span> RAIN DISTRICT</span
+            ><button
+              id="pause"
+              type="button"
+              disabled
+              aria-label="Jeda permainan"
+            >
+              II <span>Jeda</span>
+            </button>
+          </div>
+          <div class="road-label" aria-hidden="true">
+            <span>03:17 AM</span
+            ><span id="road-message">JALAN TAK BERUJUNG.</span
+            ><span>WET / 18°C</span>
+          </div>
+          <section
+            id="panel"
+            class="panel"
+            role="dialog"
+            aria-modal="false"
+            aria-labelledby="panel-title"
+            aria-describedby="panel-description"
+          >
+            <span id="panel-kicker" class="eyebrow accent"
+              >ENDLESS TRAFFIC ARCADE</span
+            >
+            <h2 id="panel-title">
+              Kejar malam.<br /><span>Bukan tabrakan.</span>
+            </h2>
+            <p id="panel-description">
+              Susuri hujan neon sejauh mungkin. Lewati mobil dari dekat untuk
+              mengisi nitro. Satu sentuhan mobil mengakhiri perjalanan.
+            </p>
+            <div id="result-stats" class="result-stats" hidden>
+              <div>JARAK <strong id="final-distance">0 m</strong></div>
+              <div>SKOR <strong id="final-score">0</strong></div>
+              <div>NYARIS <strong id="final-near">0</strong></div>
+            </div>
+            <p class="record-line">
+              REKOR LOKAL <strong id="record">0</strong><span>poin</span>
+            </p>
+            <p id="save-status" class="save-status">
+              Rekor tersimpan hanya di browser ini.
+            </p>
+            <button id="primary" class="primary" type="button" disabled>
+              Memuat permainan…
+            </button>
+            <p id="panel-help" class="panel-help">
+              A / D atau ← / → kemudi · S / ↓ rem<br />Spasi / W / ↑ nitro · P /
+              Esc jeda
+            </p>
+          </section>
+          <noscript
+            ><p class="no-script">
+              JavaScript tidak aktif. Aktifkan JavaScript untuk memainkan Neon
+              Drift; tidak ada unduhan atau akun yang diperlukan.
+            </p></noscript
+          >
+        </section>
+        <nav
+          class="controls"
+          aria-label="Kontrol mengemudi, tahan untuk menggunakan"
+        >
+          <div class="steering">
+            <button
+              type="button"
+              data-input="left"
+              aria-label="Kemudi kiri, tahan"
+              aria-pressed="false"
+            >
+              <span aria-hidden="true">←</span><small>A / ←</small></button
+            ><button
+              type="button"
+              data-input="right"
+              aria-label="Kemudi kanan, tahan"
+              aria-pressed="false"
+            >
+              <span aria-hidden="true">→</span><small>D / →</small>
+            </button>
+          </div>
+          <span class="control-hint"
+            >TAHAN KENDALI<span>LEPAS UNTUK NETRAL</span></span
+          >
+          <div class="pedals">
+            <button
+              type="button"
+              data-input="brake"
+              aria-label="Rem, tahan"
+              aria-pressed="false"
+            >
+              REM<small>S / ↓</small></button
+            ><button
+              type="button"
+              data-input="nitro"
+              class="nitro-button"
+              aria-label="Nitro, tahan"
+              aria-pressed="false"
+            >
+              NITRO <span aria-hidden="true">↗</span
+              ><small>SPASI / W / ↑</small>
+            </button>
+          </div>
+        </nav>
+      </main>
+      <footer>
+        <span
+          ><span class="status-dot" aria-hidden="true"></span> TANPA AKUN. TANPA
+          BATAS JALAN.</span
+        ><button
+          id="help"
+          type="button"
+          aria-expanded="false"
+          aria-controls="visual-note"
+        >
+          Panduan & aksesibilitas
+        </button>
+      </footer>
+    </div>
+    <p id="visual-note" class="visual-note" hidden>
+      Kontrol ditahan, bukan diketuk. Dua arah bersamaan netral; rem mengalahkan
+      nitro. P/Esc atau berpindah jendela menjeda; lanjutkan secara eksplisit.
+      Mengurangi efek hanya mematikan dekorasi, bukan gerak lalu lintas. Game
+      ini membutuhkan reaksi visual dan waktu nyata; Canvas belum menyediakan
+      pengalaman mengemudi nonvisual yang setara. Rekor bersifat lokal untuk
+      asal halaman ini; mode file dan privat dapat membatasi penyimpanan.
+    </p>
+  </body>
+</html>
