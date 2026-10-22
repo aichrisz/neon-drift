@@ -1,0 +1,29 @@
+
+> neon-drift@1.0.0 test
+> node --test tests/*.test.cjs && playwright test
+
+✔ state/motion tracer and detached snapshots (4.165943ms)
+✔ immutable config, fairness inequality, bounded steering and validation (2.335613ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (77.82975ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (1.958771ms)
+✔ denied read and quota write have separate truthful session outcomes (0.555643ms)
+✔ successful exact key write; finite safe integers only (0.264922ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.182487ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (13.345514ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (3.919982ms)
+✔ real narrow pass awards once, distant pass awards nothing (15.954608ms)
+✔ large delta clamp and active time partitions agree (0.627803ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 321.973782
+
+Running 1 test using 1 worker
+
+  ✓  1 tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer (13.6s)
+
+  1 passed (14.7s)

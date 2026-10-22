@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer (490ms)
+
+
+  1) tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer ────────────────────────────────
+
+    Error: page.goto: net::ERR_FILE_NOT_FOUND at file:///root/projects/neon-drift/.worktrees/implementation/index.html
+    Call log:
+      - navigating to "file:///root/projects/neon-drift/.worktrees/implementation/index.html", waiting until "load"
+
+
+      4 | test('native playable lifecycle tracer',async({page})=>{
+      5 |  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+    > 6 |  await page.goto(source);await page.getByRole('button',{name:'Mulai mengemudi'}).click();
+        |             ^
+      7 |  await expect(page.locator('#phase')).toHaveText('MENGEMUDI');
+      8 |  await page.keyboard.down('ArrowRight');await page.waitForTimeout(300);await page.keyboard.up('ArrowRight');
+      9 |  await expect.poll(async()=>Number(await page.locator('#distance').textContent())).toBeGreaterThan(5);
+        at /root/projects/neon-drift/.worktrees/implementation/tests/e2e/game.spec.cjs:6:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/game-native-playable-lifecycle-tracer/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/game-native-playable-lifecycle-tracer/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/game-native-playable-lifecycle-tracer/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/game-native-playable-lifecycle-tracer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer ─────────────────────────────────

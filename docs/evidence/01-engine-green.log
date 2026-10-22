@@ -1,0 +1,11 @@
+✔ state/motion tracer and detached snapshots (2.691815ms)
+✔ immutable config, fairness inequality, bounded steering and validation (1.940131ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (46.247449ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.113494

@@ -1,0 +1,41 @@
+✔ state/motion tracer and detached snapshots (4.268903ms)
+✔ immutable config, fairness inequality, bounded steering and validation (3.498539ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (83.17029ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.183007ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (10.563657ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (3.008137ms)
+✖ real narrow pass awards once, distant pass awards nothing (19.398985ms)
+✔ large delta clamp and active time partitions agree (2.269252ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 292.136743
+
+✖ failing tests:
+
+test at tests/traffic.test.cjs:26:1
+✖ real narrow pass awards once, distant pass awards nothing (19.398985ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'results'
+  - 'running'
+  
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/traffic.test.cjs:33:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'results',
+    expected: 'running',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

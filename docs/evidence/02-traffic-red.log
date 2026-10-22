@@ -1,0 +1,89 @@
+✖ swept two-axis exact edge contact and lateral tunneling (1.035965ms)
+✖ actual seeded crash stops exactly at contact, results freeze and replay clears (13.114991ms)
+✖ nitro consumption, brake priority, release, empty pool and cap (6.695717ms)
+✖ real narrow pass awards once, distant pass awards nothing (4.704465ms)
+✔ large delta clamp and active time partitions agree (1.498248ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.698111
+
+✖ failing tests:
+
+test at tests/traffic.test.cjs:4:1
+✖ swept two-axis exact edge contact and lateral tunneling (1.035965ms)
+  TypeError: sweepContact is not a function
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/traffic.test.cjs:5:15)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/traffic.test.cjs:10:1
+✖ actual seeded crash stops exactly at contact, results freeze and replay clears (13.114991ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'running'
+  - 'results'
+  
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/traffic.test.cjs:14:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'running',
+    expected: 'results',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/traffic.test.cjs:19:1
+✖ nitro consumption, brake priority, release, empty pool and cap (6.695717ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(s.nitro<CONFIG.initialNitro)
+  
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/traffic.test.cjs:21:2)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/traffic.test.cjs:26:1
+✖ real narrow pass awards once, distant pass awards nothing (4.704465ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/traffic.test.cjs:33:41)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

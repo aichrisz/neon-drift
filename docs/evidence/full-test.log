@@ -1,0 +1,64 @@
+
+> neon-drift@1.0.0 test
+> node --test tests/*.test.cjs && playwright test
+
+✔ state/motion tracer and detached snapshots (13.667116ms)
+✔ immutable config, fairness inequality, bounded steering and validation (17.527777ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (383.605965ms)
+✔ corrupt, prototype-like, oversize and bounded whitelisted profiles (2.087172ms)
+✔ denied read and quota write have separate truthful session outcomes (0.728564ms)
+✔ successful exact key write; finite safe integers only (0.589603ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.391248ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (20.257672ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (5.152668ms)
+✔ real narrow pass awards once, distant pass awards nothing (25.37678ms)
+✔ large delta clamp and active time partitions agree (0.740244ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 815.913159
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests/e2e/delivery.spec.cjs:3:230 › source real play, screenshots and geometry (4.7s)
+  ✓  2 tests/e2e/delivery.spec.cjs:3:230 › dist real play, screenshots and geometry (4.1s)
+  ✓  3 tests/e2e/delivery.spec.cjs:3:230 › offline real play, screenshots and geometry (4.2s)
+  ✘  4 tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer (15.8s)
+
+
+  1) tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer ────────────────────────────────
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 10
+    Received:   10
+
+      19 |  await page.getByRole('button',{name:'Coba lagi'}).click();
+      20 |  await expect(page.locator('#phase')).toHaveText('MENGEMUDI');
+    > 21 |  expect(Number(await page.locator('#distance').textContent())).toBeLessThan(10);expect(errors).toEqual([]);
+         |                                                                ^
+      22 | });
+      23 |
+        at /root/projects/neon-drift/.worktrees/implementation/tests/e2e/game.spec.cjs:21:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/game-native-playable-lifecycle-tracer/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/game-native-playable-lifecycle-tracer/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/game-native-playable-lifecycle-tracer/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/game-native-playable-lifecycle-tracer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/game.spec.cjs:4:1 › native playable lifecycle tracer ─────────────────────────────────
+  3 passed (31.2s)

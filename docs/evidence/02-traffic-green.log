@@ -1,0 +1,16 @@
+✔ state/motion tracer and detached snapshots (5.495909ms)
+✔ immutable config, fairness inequality, bounded steering and validation (5.055308ms)
+✔ seeded waves leave open lane; deterministic across 100 seeds (110.187478ms)
+✔ swept two-axis exact edge contact and lateral tunneling (1.495688ms)
+✔ actual seeded crash stops exactly at contact, results freeze and replay clears (16.54477ms)
+✔ nitro consumption, brake priority, release, empty pool and cap (5.743711ms)
+✔ real narrow pass awards once, distant pass awards nothing (20.882113ms)
+✔ large delta clamp and active time partitions agree (0.622123ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 339.535602
