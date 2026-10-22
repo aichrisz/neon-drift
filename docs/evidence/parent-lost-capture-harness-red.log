@@ -1,0 +1,57 @@
+
+> neon-drift@1.0.0 test:browser
+> playwright test
+
+
+Running 6 tests using 1 worker
+
+  ✓  1 tests/e2e/delivery.spec.cjs:18:3 › source real play, screenshots and geometry (4.6s)
+  ✓  2 tests/e2e/delivery.spec.cjs:18:3 › dist real play, screenshots and geometry (4.0s)
+  ✓  3 tests/e2e/delivery.spec.cjs:18:3 › offline real play, screenshots and geometry (3.9s)
+  ✓  4 tests/e2e/game.spec.cjs:5:1 › native playable lifecycle tracer (22.1s)
+  ✘  5 tests/e2e/parent-acceptance.spec.cjs:4:1 › focused pause, key release, lost capture and simulated lifecycle signals freeze safely (11.5s)
+  ✓  6 tests/e2e/parent-acceptance.spec.cjs:83:1 › axe ready, driving, paused and actual crash/results without exclusions (13.3s)
+
+
+  1) tests/e2e/parent-acceptance.spec.cjs:4:1 › focused pause, key release, lost capture and simulated lifecycle signals freeze safely
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-input="left"]')
+    Expected: "false"
+    Received: "true"
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-input="left"]') with timeout 10000ms
+      - waiting for locator('[data-input="left"]')
+        24 × locator resolved to <button type="button" data-input="left" aria-pressed="true" aria-label="Kemudi kiri, tahan">…</button>
+           - unexpected value "true"
+
+
+      30 |   });
+      31 |   await page.clock.runFor(32);
+    > 32 |   await expect(left).toHaveAttribute("aria-pressed", "false");
+         |                      ^
+      33 |   await page.mouse.up();
+      34 |   await page.locator("#decorations").focus();
+      35 |   await page.keyboard.press("p");
+        at /root/projects/neon-drift/.worktrees/implementation/tests/e2e/parent-acceptance.spec.cjs:32:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/parent-acceptance-focused--7bfaf-cycle-signals-freeze-safely/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/parent-acceptance-focused--7bfaf-cycle-signals-freeze-safely/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/parent-acceptance-focused--7bfaf-cycle-signals-freeze-safely/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/parent-acceptance-focused--7bfaf-cycle-signals-freeze-safely/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/parent-acceptance.spec.cjs:4:1 › focused pause, key release, lost capture and simulated lifecycle signals freeze safely
+  5 passed (1.1m)

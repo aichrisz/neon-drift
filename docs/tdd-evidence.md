@@ -1,6 +1,6 @@
 # Implementation evidence and handoff
 
-This is an implementation candidate, not full specification acceptance. Only actual commands/results are reported. Parent owns architecture, independent review and release. No tag, push or deployment was performed.
+This document preserves the **initial implementer checkpoint** below, followed by expanded parent acceptance. Initial counts and archive size are historical, not the final release totals. No push or public deployment is authorized.
 
 ## Observed RED → GREEN
 
@@ -27,7 +27,7 @@ The delivery helpers and delivery smoke tests were NOT developed through an obse
 - Source/dist/offline screenshots captured at real390x844 and1366x768; geometry assertions confirmed no horizontal overflow, canvas height>300 and controls bottom within viewport. Running screenshots also captured. These images have NOT received independent visual inspection through an image viewer in this terminal-only run. Do not treat screenshot creation as visual acceptance.
 - npm audit --fetch-timeout=15000 --fetch-retries=0: exit0, “found 0 vulnerabilities”. Online command, no cached fallback used. Registry intelligence freshness beyond this response is not asserted.
 
-## Remaining acceptance work
+## Initial handoff gaps (superseded by parent coverage below)
 
 - Synthetic server/input/output/ancestor/dangling symlink and traversal boundary regression tests (implementation guards exist, not fully tested).
 - Explicit pointer simultaneous/cancel/lostcapture automation, keyboard release/focused P/Esc coverage, hidden/blur/pagehide freeze, rAF count instrumentation, mid-run resize invariance.
@@ -36,4 +36,27 @@ The delivery helpers and delivery smoke tests were NOT developed through an obse
 - Dist and standalone crash/retry paths specifically, rather than inferring from source tracer; broader seed/fairness adversarial tests.
 - Independent parent review, fingerprints and release acceptance. No physical-device, Safari/Firefox or nonvisual driving-equivalence claim.
 
-Real screenshots: artifacts/source-390-ready.png, source-1366-ready.png, source-running.png, and matching dist/offline names. All paths are relative to this implementation worktree.
+Real initial screenshots: artifacts/source-390-ready.png, source-1366-ready.png, source-running.png, and matching dist/offline names. Paths are relative to the project.
+
+## Parent acceptance expansion
+
+- `tests/manual/engine.cjs`: independent scoring/range/fairness invariants, seeded determinism, 20 real unattended crashes, 10,000 swept-contact fuzz cases computed with a rectangle-face algorithm different from production, and one-time close-pass recharge. The domain report records exact seed totals.
+- `tests/manual/browser.cjs`: native keyboard play through source/dist/standalone, actual crash, once-only save, replay, reload persistence, pause/blur, no scrolling on Space, rAF instrumentation (one chain while active, none while idle/paused/results), and 390×844 simultaneous CDP touch plus cancellation. No live game instance is exposed or mutated.
+- `tests/manual/edge.cjs`: 13 responsive/storage/noJS/reduced-motion/near-pass browser cases. RNG is replaced only as a test environment dependency before initialization for deterministic ordinary-input paths. It is not a game-state hook. Long edge runs use 100ms displayed frames while domain substeps remain 120Hz.
+- `tests/parent-boundary.test.cjs`: seven synthetic boundary tests first passed on the guarded implementation; **coverage expansion, not an observed production-fix RED cycle**.
+- `tests/e2e/parent-acceptance.spec.cjs`: all-phase axe, focused-key pause, key release, actual lost-capture processing and simulated platform lifecycle signals.
+- Parent all-phase axe initially failed during DRIVING with `page-has-heading-one` because hiding the menu also hid the only h1. Astra added a persistent visually-hidden h1, moved the menu title to h2, preserved styles, and the same all-phase scan passed without disabling rules.
+- An added lost-capture test initially failed because the harness assumed releasePointerCapture fires its event synchronously. The corrected test supplies the next real pointer event, then asserts release **before mouseup**. No production change. The RED diagnostic is retained in docs/evidence/parent-lost-capture-harness-red.log.
+- Earlier parent harness corrections used the actual root background instead of a transparent body, accessible button text rather than overly exact matching, and the visible no-JS child instead of noscript container box visibility. No production mechanics changed to satisfy those harness assumptions.
+- Final automated results, online audit response and source/archive integrity are recorded under artifacts/acceptance and artifacts/release-manifest.json; fresh reviewer verdict under artifacts/independent-review.json. Initial 37-member ZIP above is superseded by the final manifest count.
+- Remaining limitations: Chromium automation, not physical devices, Safari/Firefox, real navigation/BFCache certification or human screen-reader usability. Procedurally open traffic lanes do not promise that a player choosing a late/wrong maneuver can always recover.
+
+## Fresh review correction cycle
+
+The first fresh Astra reviewer returned changes_required (docs/evidence/parent-review-first.json). Parent reproduced two issues before correction:
+
+- `node --test tests/parent-corridor.test.cjs`: RED, stationary x=-0.65 seed1 was still running after120s. Fixed by varying actual static traffic x across later waves, not by injecting collisions or widening hidden hitboxes. First two intro waves and real near-pass behavior remain unchanged. All 41 lateral positions across5seeds must now actually crash if steering is released for120active seconds.
+- `npm run test:browser -- --grep 'pause focus'`: RED, enabled pause did not own focus because the controller attempted focus before render enabled it. Corrected render-before-focus order and directly asserted activeElement after start/resume/replay.
+- Documentation fairness proof now includes twice the longitudinal contact length, matching the stronger independent oracle. Spacing125 already exceeds the required88.8m.
+
+The complete parent gate was rerun after these actual source corrections: 19 unit/boundary and 7 browser tests passed, plus 13 edge cases; the online audit returned zero vulnerabilities. Raw RED logs remain under docs/evidence; the fresh final read-only Astra review returned ship with no security/logic blockers. Review fingerprints and local release bytes are recorded separately from the first review.

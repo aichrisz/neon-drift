@@ -1,6 +1,8 @@
 # Neon Drift
 
-Local v1.0.0 implementation candidate, written with gpt-6-astra. No runtime dependencies, accounts, network assets, fonts, or sound. Parent owns final acceptance/review/release; this is not a release certification.
+**v1.0.0 · Kejar malam. Bukan tabrakan.**
+
+Rear-camera pseudo-3D endless traffic arcade, implemented with exact-model `gpt-6-astra` and independently exercised by the parent. No runtime dependencies, accounts, network assets, fonts, analytics, or sound. **Local release only; not published or deployed.**
 
 ## Play
 
@@ -8,9 +10,9 @@ Open index.html directly, or run `npm start` and visit http://127.0.0.1:4187. Op
 
 ## Development
 
-Node with npm and Python3 required. `npm install --ignore-scripts` installs exact dev pins @playwright/test 1.64.1 and axe-core 4.14.0. Chromium path is configured in playwright.config.cjs; override with CHROMIUM_PATH. Runtime does not need these tools.
+Node with npm and Python3 required. `npm ci --ignore-scripts` installs the lockfile with exact dev pins @playwright/test 1.64.1 and axe-core 4.14.0. Chromium path is configured in playwright.config.cjs; override with CHROMIUM_PATH. Runtime does not need these tools.
 
-Commands: `npm run check`, `npm run build`, `npm run export`, `npm test`, `npm run package`. Helpers anchor themselves to the project, not the caller's working directory. Source ZIP includes tracked source, tests, docs and helpers; stage new intended files before packaging. No recursive deletion. Output goes only to dist/ and artifacts/. Server binds only 127.0.0.1:4187 and serves the shared six-file runtime allowlist. `node scripts/server.cjs --dist` serves the build instead. Stop an existing server before running browser tests.
+Commands: `npm run check`, `npm run build`, `npm run export`, `npm test`, `npm run test:manual`, `npm run verify`, `npm run package`. `npm test` runs unit and browser suites; `npm run verify` adds independent domain, source/dist/standalone play-throughs, emulated multitouch and adversarial browser matrix. Run `npm audit` separately for online dependency advisory results. Helpers anchor themselves to the project, not the caller's working directory. Source ZIP includes tracked source, tests, docs and helpers; stage new intended files before packaging. No recursive deletion. Output goes only to dist/ and artifacts/. Server binds only 127.0.0.1:4187 and serves the shared six-file runtime allowlist. `node scripts/server.cjs --dist` serves the build instead. Stop an existing server before running browser tests.
 
 ## Architecture and public contract
 
@@ -23,7 +25,7 @@ CommonJS `require('./engine.js')` and browser `Neon` expose Engine, immutable CO
 
 World x lane centers are -1, 0, 1, bounds [-1,1]. Distances in metres, speed metres/second. CONFIG is authoritative. Start speed36; cruise46 rising .12 per active second to58; nitro84; brake22; traffic20. Acceleration24 and deceleration48 m/s². Steering1.6 lane units/s. Substeps at most1/120s; each step(seconds) clamps accepted work to .25s, discarding excess. Browser frames cap .1s and lifecycle loss pauses instead of catching up. Invalid negative/nonfinite deltas and nonboolean input flags throw before mutation. Partial input replaces other flags with false. Both directions cancel. Brake has priority.
 
-Fairness: two-lane traversal = 2/1.6 = 1.25s. Worst relative speed = 84-20 =64m/s. Required window =64*1.25+4.4 =84.4m. Wave spacing125m and spawn lookahead310m both strictly exceed84.4m. Waves contain at most two lanes; every wave leaves a lane open. First traffic is310m away. Population cap10 and passed removal at z<=-20. Seeded LCG makes equivalent input/delta sequences reproducible.
+Fairness: two-lane traversal = 2/1.6 = 1.25s. Worst relative speed = 84-20 = 64m/s. Required window includes BOTH entry/exit contact zones: 64*1.25+2*4.4 = 88.8m. Wave spacing125m and spawn lookahead310m both strictly exceed88.8m. Waves contain at most two original lanes; every wave leaves an integer lane center open. The first two waves are centered; subsequent waves cycle static lateral offsets -0.22,0,+0.22, with no extra RNG draws. Open-lane clearance is at least 0.78 lane units, greater than contactWidth0.33; cars remain inside the road. Varying offsets close permanent inter-lane invulnerability, so players must keep steering rather than park between lanes to farm score/nitro. First traffic is310m away. Population cap10 and passed removal at z<=-20. Seeded LCG makes equivalent input/delta sequences reproducible.
 
 Car widths .32/.34 lane units; combined half width .33. Both lengths4.4m, combined half length4.4. Collision is inclusive swept two-axis segment/box intersection on each bounded step. Integration truncates at first contact, including time, distance, resource drain and traffic. No pass rewards in a colliding substep; results never progress. Each step is a documented constant mean-velocity segment, not an unbounded variable-delta teleport.
 
@@ -37,4 +39,15 @@ Key neon-drift.records.v1; version1 JSON, maximum1024 UTF-8 bytes. Whitelisted i
 
 Native controls, explicit focus, text HUD, labeled meter, decoration toggle defaulting off for reduced motion. Necessary traffic/road motion remains. Canvas driving needs visual reaction; keyboard access and axe do not establish equivalent nonvisual gameplay. No audio. Chromium automation only; no physical-device, Safari/Firefox or human accessibility acceptance claimed.
 
-Read docs/tdd-evidence.md for observed tests and remaining acceptance work. Screenshots under artifacts/ are real browser captures, not mockups. Final independent visual review, all-phase accessibility/lifecycle adversarial coverage and delivery-boundary regression coverage remain parent acceptance work.
+## Verification and release evidence
+
+- 19 unit/boundary tests and 7 browser tests, no exclusions or skipped tests.
+- Parent domain oracle: seeded fairness/scoring/determinism, 20 unattended center-run crashes and 10,000 alternate-algorithm swept-contact cases.
+- Native source, build and standalone crash/save/retry/reload play-throughs; standalone requires no neighboring file or network request.
+- Standalone 390×844 Chromium touch emulation with simultaneous held steering/nitro and actual pointer cancellation. This is not physical-device certification.
+- 13 additional browser cases: five responsive viewports (320–1440 wide), corrupt/oversized/adversarial/denied/quota storage, reduced motion, no JavaScript, and real near-pass nitro recharge through ordinary controls.
+- Axe checks READY, DRIVING, PAUSED and RESULTS; simulated pagehide/visibility/blur signals freeze play. A persistent heading fixes the observed in-play heading regression.
+- Runtime/source/export/package boundary tests use synthetic fixture data, including dangling and ancestor symlinks.
+- The permanent safe-corridor strategy is regression-tested at 41 stationary lateral positions across five deterministic seeds. Enabled pause controls receive keyboard focus after start/resume/retry.
+
+`docs/tdd-evidence.md` preserves historical RED/GREEN and clearly distinguishes initial implementation evidence from expanded parent acceptance. `artifacts/acceptance/gate.json`, `artifacts/independent-review.json`, and `artifacts/release-manifest.json` accompany local release verification. Screenshots are actual browser captures, visually inspected by the parent, not mockups. No physical-device, Safari/Firefox, manual screen-reader, or nonvisual driving-equivalence claim. Source archive contains committed source, tests, documentation, and retained evidence; generated files remain outside Git.

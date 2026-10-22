@@ -1,0 +1,51 @@
+
+> neon-drift@1.0.0 test:browser
+> playwright test --grep pause focus
+
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/e2e/parent-acceptance.spec.cjs:65:1 › pause focus follows enabled running controls on start resume and replay (10.9s)
+
+
+  1) tests/e2e/parent-acceptance.spec.cjs:65:1 › pause focus follows enabled running controls on start resume and replay
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#pause')
+    Expected: focused
+    Received: inactive
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toBeFocused" locator('#pause') with timeout 10000ms
+      - waiting for locator('#pause')
+        24 × locator resolved to <button id="pause" type="button" aria-label="Jeda permainan">…</button>
+           - unexpected value "inactive"
+
+
+      66 |  await page.clock.install();await page.addInitScript(()=>{crypto.getRandomValues=a=>{a.fill(7);return a}});await page.goto('/');await page.clock.pauseAt(new Date(Date.now()+1000));
+      67 |  await page.getByRole('button',{name:'Mulai mengemudi'}).click();await page.clock.runFor(64);
+    > 68 |  await expect(page.locator('#pause')).toBeFocused();
+         |                                       ^
+      69 |  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Lanjutkan'}).click();await page.clock.runFor(64);
+      70 |  await expect(page.locator('#pause')).toBeFocused();
+      71 |  for(let i=0;i<140;i++)await page.clock.fastForward(100);
+        at /root/projects/neon-drift/.worktrees/implementation/tests/e2e/parent-acceptance.spec.cjs:68:39
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    artifacts/browser/parent-acceptance-pause-fo-80fe4--on-start-resume-and-replay/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: artifacts/browser/parent-acceptance-pause-fo-80fe4--on-start-resume-and-replay/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    artifacts/browser/parent-acceptance-pause-fo-80fe4--on-start-resume-and-replay/trace.zip
+    Usage:
+
+        npx playwright show-trace artifacts/browser/parent-acceptance-pause-fo-80fe4--on-start-resume-and-replay/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/parent-acceptance.spec.cjs:65:1 › pause focus follows enabled running controls on start resume and replay

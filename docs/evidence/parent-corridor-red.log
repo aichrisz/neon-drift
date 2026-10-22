@@ -1,0 +1,32 @@
+✖ all stationary lateral positions eventually meet real traffic across deterministic seeds (80.532725ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 158.499835
+
+✖ failing tests:
+
+test at tests/parent-corridor.test.cjs:4:1
+✖ all stationary lateral positions eventually meet real traffic across deterministic seeds (80.532725ms)
+  AssertionError [ERR_ASSERTION]: stationary x=-0.65, seed=1 is invulnerable
+  + actual - expected
+
+  + 'running'
+  - 'results'
+
+      at TestContext.<anonymous> (/root/projects/neon-drift/.worktrees/implementation/tests/parent-corridor.test.cjs:10:31)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'running',
+    expected: 'results',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
